@@ -2,6 +2,7 @@ package com.jm.tfg.dao;
 
 import com.jm.tfg.Entidades.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.query.Param;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 //    long deleteByName1(String name);
@@ -16,4 +17,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 //    @Modifying
 ////    @Query("delete from User u where u.contactNumber = ?1")
 //    void deleteByContactNumber(String contactNumber);
+
+
+    User findByEmailId(@Param("email")String email); //(@Param("email")  indica cómo debe nombrarse el parámetro en la consulta SQL
 }

@@ -2,13 +2,12 @@ package com.jm.tfg.Entidades;
 
 import jakarta.persistence.*;
 import lombok.*;
-//import javax.validation.constraints.NotBlank;
-
 
 import java.io.Serial;
 import java.io.Serializable;
 
-@NamedQuery(name = "User.findByEmailId", query = "select u from User u where u.email=:email")
+//@NamedQuery(name = "User.findByEmailId", query = "select u from User u where u.email=:email")
+//TODO mejora esta clase con @
 @Data
 @Entity
 @Table(name = "user")
@@ -25,7 +24,6 @@ public class User implements Serializable { //puedes borrar la clase serializabl
 
 
     @Column
-//    @NotBlank(message = "El número de contacto es obligatorio")
     private String name;
     private String contactNumber;
     private String email;

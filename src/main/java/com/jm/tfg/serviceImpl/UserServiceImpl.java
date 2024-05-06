@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
 
 
         if (validarRegistroMap(requestMap)){
-            User user = userRepository.findByEmailId(requestMap.get("email"));
+            User user = userRepository.findByEmail(requestMap.get("email")); //aqui hay dos métodos para el email en el repositorio
             if (Objects.isNull(user)){
                 userRepository.save(obtenerUserDeMap(requestMap));
                 return TfgUtils.personalizaResponseEntity("Registro Exitoso", HttpStatus.OK);
@@ -47,11 +47,10 @@ public class UserServiceImpl implements UserService {
     }
 
     private boolean validarRegistroMap(Map<String, String> requestMap){
-      if (requestMap.containsKey("name")&& requestMap.containsKey("contactNumber")
-                && requestMap.containsKey("email") && requestMap.containsKey("password")){
-          return  true;
-      }
-      return false;
+        return requestMap.containsKey("name") &&
+                requestMap.containsKey("contactNumber") &&
+                requestMap.containsKey("email") &&
+                requestMap.containsKey("password");
 
     }
 

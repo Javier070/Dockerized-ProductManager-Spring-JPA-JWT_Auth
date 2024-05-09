@@ -2,9 +2,8 @@ package com.jm.tfg.dao;
 
 import com.jm.tfg.Entidades.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.query.Param;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserDAO extends JpaRepository<User, Long> {
 //    long deleteByName1(String name);
 //
 //    void removeByName(String name);

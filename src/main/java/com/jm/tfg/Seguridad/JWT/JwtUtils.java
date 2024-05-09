@@ -1,4 +1,4 @@
-package com.jm.tfg.JWT;
+package com.jm.tfg.Seguridad.JWT;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Function;
 
 @Service
@@ -34,7 +33,7 @@ public class JwtUtils {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }
 
-    private  Boolean tokenCaducado(String token){
+    public Boolean tokenCaducado(String token){
         return  extraerCaducidad(token).before(new Date());
     }
 
@@ -49,7 +48,7 @@ public class JwtUtils {
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(subject)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setIssuedAt(new Date(System.currentTimeMillis())) //fecha en la cual fue usado el token
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 *60 *10))
                 .signWith(SignatureAlgorithm.HS256,secret).compact();
     }
@@ -58,5 +57,7 @@ public class JwtUtils {
         final String username = extraerUsuarioNombre(token);
         return (username.equals(userDetails.getUsername()) && tokenCaducado(token));
     }
+
+
 }
 

@@ -1,36 +1,74 @@
 package com.jm.tfg.serviceImpl;
 
 import com.jm.tfg.Entidades.User;
+import com.jm.tfg.Seguridad.CustomerDetailsService;
+import com.jm.tfg.Seguridad.JWT.JwtUtils;
 import com.jm.tfg.constantes.TfgConstants;
-import com.jm.tfg.dao.UserRepository;
+import com.jm.tfg.dao.UserDAO;
 import com.jm.tfg.service.UserService;
 import com.jm.tfg.utils.TfgUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
-import java.util.Objects;
+
 
 @Slf4j
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserDAO userDAO;
+
+
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private CustomerDetailsService customerDetailsService;
+
+    @Autowired
+    private JwtUtils jwtUtils;
+
+    @Override
+    public ResponseEntity<String> login(Map<String, String> requestMap) {
+        log.info("Dentro de login");
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(requestMap.get("email"), requestMap.get("password")));
+            if (authentication.isAuthenticated()){
+                if(customerDetailsService.getUserDetail().getStatus().equalsIgnoreCase("true")){
+                    return new ResponseEntity<String>(
+                            ("{\"token\": \"" +
+                                    jwtUtils.generarToken(customerDetailsService.getUserDetail().getEmail(),
+                                            
+                                            customerDetailsService.getUserDetail().getRole()) + "\"}"),
+                            HttpStatus.OK);
+                }
+                else{
+                    return new ResponseEntity<String>("{\"message\": \""+ "Espera para ser aceptado por del administrador "+"\"}", HttpStatus.BAD_REQUEST);
+                }
+            }
+        }catch (Exception ex){
+            log.error("{}", ex);
+        }
+        return new ResponseEntity<String>("{\"message\": \""+ "Credenciales Incorrectas"+"\"}", HttpStatus.BAD_REQUEST);
+    }
     @Override
     public ResponseEntity<String> registro(Map<String, String> requestMap) {
-        log.info("Registro interno MIO{}", requestMap);
+        log.info("Registro interno de un usuario{}", requestMap);// quiero ver impreso ese Map
         try {
-
-
-
         if (validarRegistroMap(requestMap)){
-            User user = userRepository.findByEmail(requestMap.get("email")); //aqui hay dos métodos para el email en el repositorio
-            if (Objects.isNull(user)){
-                userRepository.save(obtenerUserDeMap(requestMap));
+            User user = userDAO.findByEmail(requestMap.get("email")); //aqui hay dos métodos para el email en el repositorio
+            if (user == null){
+                userDAO.save(obtenerUserDeMap(requestMap));
                 return TfgUtils.personalizaResponseEntity("Registro Exitoso", HttpStatus.OK);
             }else {
                 return TfgUtils.personalizaResponseEntity("Email ya existe",HttpStatus.BAD_REQUEST);
@@ -46,12 +84,16 @@ public class UserServiceImpl implements UserService {
         return TfgUtils.personalizaResponseEntity(TfgConstants.ALGO_SALE_MAL, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+
+
     private boolean validarRegistroMap(Map<String, String> requestMap){
-        return requestMap.containsKey("name") &&
+        if (requestMap.containsKey("name") &&
                 requestMap.containsKey("contactNumber") &&
                 requestMap.containsKey("email") &&
-                requestMap.containsKey("password");
-
+                requestMap.containsKey("password")){
+        return  true;
+        }
+        return false;
     }
 
     private User obtenerUserDeMap(Map<String, String> requestMap){
@@ -64,4 +106,6 @@ public class UserServiceImpl implements UserService {
         user.setRole("user");
         return user;
     }
+
+
 }

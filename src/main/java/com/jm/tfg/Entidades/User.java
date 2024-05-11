@@ -15,6 +15,8 @@ import java.io.Serializable;
 @Table(name = "user")
 @DynamicInsert//EXPLICA ESTO
 @DynamicUpdate//EXPLICA ESTO
+@NoArgsConstructor
+@AllArgsConstructor
 public class User implements Serializable { //puedes borrar la clase serializable ya que @Restcontroller ya se encarga de esto
     @Serial
     private  static  final  long serialVersionUID = 1L;

@@ -63,7 +63,7 @@ public class JwtUtils {
     }
 
 
-    public Boolean ken(String token, UserDetails userDetails){
+    public Boolean validaToken(String token, UserDetails userDetails){
         final String username = extraerUsuarioNombre(token);
         return (username.equals(userDetails.getUsername()) && tokenCaducado(token));
     }

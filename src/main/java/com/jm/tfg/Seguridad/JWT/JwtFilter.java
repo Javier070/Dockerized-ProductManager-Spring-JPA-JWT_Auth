@@ -31,8 +31,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (request.getServletPath().matches("/user/login|user/forgotPassword|/user/registro|/user/verifyToken")){  //todo puede ser que tengas que cambiar el nombre a los métodos
-          filterChain.doFilter(request, response);
+        if (request.getServletPath().matches("/user/login|/user/forgotPassword|/user/registro|/user/verifyToken")){
+            filterChain.doFilter(request, response);
         }
         else {
             String authorizationHeader = request.getHeader("Authorization");
@@ -48,7 +48,7 @@ public class JwtFilter extends OncePerRequestFilter {
                 if (jwtUtils.validaToken(token,userDetails)){
                     UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                             new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                            new WebAuthenticationDetailsSource().buildDetails(request);
+                    new WebAuthenticationDetailsSource().buildDetails(request);
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 
 
@@ -58,17 +58,16 @@ public class JwtFilter extends OncePerRequestFilter {
 
         }
     }
-    public Boolean isAdmin(){
+
+    public Boolean isAdmin() {
         return "admin".equalsIgnoreCase((String) claims.get("role"));
     }
 
-    public Boolean isUser(){
+    public Boolean isUser() {
         return "user".equalsIgnoreCase((String) claims.get("role"));
     }
 
-
-    public String getCurrentUser(){
+    public String getCurrentUser() {
         return username;
     }
 }
-

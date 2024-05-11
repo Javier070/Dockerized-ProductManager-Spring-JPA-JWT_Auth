@@ -37,29 +37,18 @@ public class UserRestImpl implements UserRest {
 
     @Autowired
     private JwtUtils jwtUtils;
+
     @Override
     public ResponseEntity<String> registro(Map<String, String> requestMap) {
-        try {
-            userService.registro(requestMap);
-            return ResponseEntity.ok("Registro exitoso");
-        } catch (Exception ex) {
-            logger.error("Error al registrar usuario", ex); // Utilizamos logger.error para registrar el error
-        }
-        return TfgUtils.personalizaResponseEntity(TfgConstants.DATOS_NO_VALIDOS, HttpStatus.INTERNAL_SERVER_ERROR);
-//        return TfgUtils.getResponseEntity("",HttpStatus.INTERNAL_SERVER_ERROR);
 
+        try {
+                return userService.registro(requestMap);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return null;
     }
 
-//    public ResponseEntity<String> login(Map<String, String> requestMap) {
-//        try {
-//            // Llamar al servicio de inicio de sesión en userService
-//            ResponseEntity<String> response = userService.login(requestMap);
-//            return response;
-//        } catch (Exception ex) {
-//            logger.error("Error al iniciar sesión", ex);
-//            return TfgUtils.personalizaResponseEntity(TfgConstants.ALGO_SALE_MAL, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
 
     @Override
     public ResponseEntity<String> login(Map<String, String> requestMap) {
@@ -102,6 +91,36 @@ public class UserRestImpl implements UserRest {
 
 }
 //Primer commit
+
+/**
+ * Métodos para iniciar sesión y registro que estan mal
+ * @return
+ *
+ *
+//    public ResponseEntity<String> registro(Map<String, String> requestMap) {
+//        try {
+//            userService.registro(requestMap);
+//            return ResponseEntity.ok("Registro exitoso");
+//        } catch (Exception ex) {
+//            logger.error("Error al registrar usuario", ex); // Utilizamos logger.error para registrar el error
+//        }
+//        return TfgUtils.personalizaResponseEntity(TfgConstants.DATOS_NO_VALIDOS, HttpStatus.INTERNAL_SERVER_ERROR);
+////        return TfgUtils.getResponseEntity("",HttpStatus.INTERNAL_SERVER_ERROR);
+//
+//    }
+
+//    public ResponseEntity<String> login(Map<String, String> requestMap) {
+//        try {
+//            // Llamar al servicio de inicio de sesión en userService
+//            ResponseEntity<String> response = userService.login(requestMap);
+//            return response;
+//        } catch (Exception ex) {
+//            logger.error("Error al iniciar sesión", ex);
+//            return TfgUtils.personalizaResponseEntity(TfgConstants.ALGO_SALE_MAL, HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+
+ */
 
 /**
  *     @Override

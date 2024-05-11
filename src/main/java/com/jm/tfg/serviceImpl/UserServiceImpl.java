@@ -36,31 +36,62 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private JwtUtils jwtUtils;
+//  ESTE ES MI LOGIN, VOY A PROBAR CON OTRO
+//    @Override
+//    public ResponseEntity<String> login(Map<String, String> requestMap) {
+//        log.info("Dentro de login");
+//        try {
+//            Authentication authentication = authenticationManager.authenticate(
+//                    new UsernamePasswordAuthenticationToken(requestMap.get("email"), requestMap.get("password")));
+//            if (authentication.isAuthenticated()){
+//                if(customerDetailsService.getUserDetail().getStatus().equalsIgnoreCase("true")){
+//                    return new ResponseEntity<String>(
+//                            ("{\"token\": \"" +
+//                                    jwtUtils.generarToken(customerDetailsService.getUserDetail().getEmail(),
+//
+//                                            customerDetailsService.getUserDetail().getRole()) + "\"}"),
+//                            HttpStatus.OK);
+//                }
+//                else{
+//                    return new ResponseEntity<String>("{\"message\": \""+ "Espera para ser aceptado por del administrador "+"\"}", HttpStatus.BAD_REQUEST);
+//                }
+//            }
+//        }catch (Exception ex){
+//            log.error("{}", ex);
+//        }
+//        return new ResponseEntity<String>("{\"message\": \""+ "Credenciales Incorrectas"+"\"}", HttpStatus.BAD_REQUEST);
+//    }
 
     @Override
     public ResponseEntity<String> login(Map<String, String> requestMap) {
-        log.info("Dentro de login");
+        log.warn("Dentro de login");
+        System.out.println("estamos dentro");
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(requestMap.get("email"), requestMap.get("password")));
-            if (authentication.isAuthenticated()){
-                if(customerDetailsService.getUserDetail().getStatus().equalsIgnoreCase("true")){
-                    return new ResponseEntity<String>(
-                            ("{\"token\": \"" +
-                                    jwtUtils.generarToken(customerDetailsService.getUserDetail().getEmail(),
-                                            
-                                            customerDetailsService.getUserDetail().getRole()) + "\"}"),
-                            HttpStatus.OK);
-                }
-                else{
-                    return new ResponseEntity<String>("{\"message\": \""+ "Espera para ser aceptado por del administrador "+"\"}", HttpStatus.BAD_REQUEST);
+            if (authentication.isAuthenticated()) {
+                User user = customerDetailsService.getUserDetail();
+                if (user.getStatus().equalsIgnoreCase("true")) {
+                    return ResponseEntity.ok("{\"token\": \"" +
+                            jwtUtils.generarToken(user.getEmail(), user.getRole()) + "\"}");
+                } else {
+                    return ResponseEntity.badRequest().body("{\"message\": \"Espera para ser aceptado por el administrador\"}");
                 }
             }
-        }catch (Exception ex){
-            log.error("{}", ex);
+        } catch (Exception ex) {
+            log.error("Error en la autenticación", ex);
+            System.out.println("Error en la autenticación");
         }
-        return new ResponseEntity<String>("{\"message\": \""+ "Credenciales Incorrectas"+"\"}", HttpStatus.BAD_REQUEST);
+        return ResponseEntity.badRequest().body("{\"message\": \"Credenciales incorrectas\"}");
     }
+
+
+
+
+
+
+
+
     @Override
     public ResponseEntity<String> registro(Map<String, String> requestMap) {
         log.info("Registro interno de un usuario{}", requestMap);// quiero ver impreso ese Map
@@ -69,7 +100,7 @@ public class UserServiceImpl implements UserService {
             User user = userDAO.findByEmail(requestMap.get("email")); //aqui hay dos métodos para el email en el repositorio
             if (user == null){
                 userDAO.save(obtenerUserDeMap(requestMap));
-                return TfgUtils.personalizaResponseEntity("Registro Exitoso", HttpStatus.OK);
+                return TfgUtils.personalizaResponseEntity("Registro Exitoso", HttpStatus.CREATED);
             }else {
                 return TfgUtils.personalizaResponseEntity("Email ya existe",HttpStatus.BAD_REQUEST);
             }

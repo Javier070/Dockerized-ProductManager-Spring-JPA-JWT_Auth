@@ -44,16 +44,26 @@ public class JwtUtils {
         return crearToken(claims,username);
     }
 
-    private String crearToken (Map<String, Object> claims, String subject){
-        return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(subject)
-                .setIssuedAt(new Date(System.currentTimeMillis())) //fecha en la cual fue usado el token
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 *60 *10))
-                .signWith(SignatureAlgorithm.HS256,secret).compact();
+    public String crearToken(Map<String, Object> claims, String subject) {
+        try {
+            return Jwts.builder()
+                    .setClaims(claims)
+                    .setSubject(subject)
+                    .setIssuedAt(new Date(System.currentTimeMillis()))
+                    .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 horas
+                    .signWith(SignatureAlgorithm.HS256, secret)
+                    .compact();
+        } catch (Throwable th) {
+            // Manejar la excepción y registrarla
+            System.err.println("Error al crear el token JWT: " + th.getMessage());
+            th.printStackTrace();
+            //  lanzar  excepción personalizada
+            throw new RuntimeException("Error al crear el token JWT", th);
+        }
     }
 
-    public Boolean validaToken(String token, UserDetails userDetails){
+
+    public Boolean ken(String token, UserDetails userDetails){
         final String username = extraerUsuarioNombre(token);
         return (username.equals(userDetails.getUsername()) && tokenCaducado(token));
     }

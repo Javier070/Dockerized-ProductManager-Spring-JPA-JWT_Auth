@@ -2,6 +2,7 @@ package com.jm.tfg.dao;
 
 import com.jm.tfg.Entidades.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.query.Param;
 
 public interface UserDAO extends JpaRepository<User, Long> {
 //    long deleteByName1(String name);
@@ -19,12 +20,11 @@ public interface UserDAO extends JpaRepository<User, Long> {
 
 
 //    User findByEmailId(("email")String email); //(@Param("email")  indica cómo debe nombrarse el parámetro en la consulta SQL
-    User findByEmail(String email);
+    User findByEmail(@Param("email") String email);
 
     /**
      *Cuando usar @Param  User findByEmailId(@Param("email") String email)
      *  User findByEmailId(@Param("email") String email);
      * @Param se pone cuando el valor en base de datos y en la clase java no son iguales y hace falta especificarlo
      */
-
 }

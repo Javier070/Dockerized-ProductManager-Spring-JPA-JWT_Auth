@@ -65,23 +65,32 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<String> login(Map<String, String> requestMap) {
         log.info("Dentro de login");
-        System.out.println("estamos dentro");
         try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(requestMap.get("email"), requestMap.get("password")));
+            // Intenta autenticar al usuario utilizando el AuthenticationManager y las credenciales proporcionadas
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                            requestMap.get("email"),
+                            requestMap.get("password")));
+            // Verifica si la autenticación fue exitosa
             if (authentication.isAuthenticated()) {
+                // Obtiene los detalles del usuario autenticado
                 User user = customerDetailsService.getUserDetail();
+                // Verifica si el usuario está activo (status = true) en DB)
                 if (user.getStatus().equalsIgnoreCase("true")) {
-                    return ResponseEntity.ok("{\"token\": \"" +
-                            jwtUtils.generarToken(user.getEmail(), user.getRole()) + "\"}");
+                    // Genera un token JWT para el usuario autenticado
+                    String token = jwtUtils.generarToken(user.getEmail(), user.getRole());
+                    // Retorna una respuesta exitosa con el token JWT en el cuerpo
+                    return ResponseEntity.ok("{\"token\": \"" + token + "\"}");
                 } else {
+                    //el usuario es (status = true) en DB, necesita ser aprobado por el administrador
+
                     return ResponseEntity.badRequest().body("{\"mensaje\": \"Espera para ser aceptado por el administrador\"}");
                 }
             }
         } catch (Exception ex) {
             log.error("Error en la autenticación", ex);
         }
-        return ResponseEntity.badRequest().body("{\"message\": \"Credenciales incorrectas\"}");
+        return TfgUtils.personalizaResponseEntity(TfgConstants.DATOS_NO_VALIDOS,HttpStatus.BAD_REQUEST);
+
     }
 
 
@@ -101,6 +110,8 @@ public class UserServiceImpl implements UserService {
                 userDAO.save(obtenerUserDeMap(requestMap));
                 return TfgUtils.personalizaResponseEntity("Registro Exitoso", HttpStatus.CREATED);
             }else {
+
+                log.warn("El usuario ya existe");
                 return TfgUtils.personalizaResponseEntity("Email ya existe",HttpStatus.BAD_REQUEST);
             }
         }else {

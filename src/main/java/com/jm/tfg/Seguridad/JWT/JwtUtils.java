@@ -15,29 +15,33 @@ import java.util.function.Function;
 @Slf4j
 @Service
 public class JwtUtils {
+    //todo repasar lambda
+    private final String secret = "buenosdias";
 
-    private String secret = "buenosdias";
-
-    public String extraerUsuarioNombre(String token){
-        return extraerReclamo(token,Claims::getSubject);
-    }
-
-    public Date extraerCaducidad(String token){
-        return extraerReclamo(token,Claims::getExpiration);
-    }
 
     public <T> T extraerReclamo(String token, Function<Claims,T> claimsResolver){
         final Claims claims = extraerTodosReclamos(token);
         return  claimsResolver.apply(claims);
     }
 
+    public String extraerUsuarioNombre(String token){
+        return extraerReclamo(token, claims -> claims.getSubject());
+    }
+
+    public Date extraerCaducidad(String token){
+        return extraerReclamo(token,claims-> claims.getExpiration());
+    }
+    public Boolean tokenCaducado(String token){
+        return  extraerCaducidad(token).before(new Date());
+    }
+
+////////////////////////////////
     public Claims extraerTodosReclamos(String token){
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }
 
-    public Boolean tokenCaducado(String token){
-        return  extraerCaducidad(token).before(new Date());
-    }
+
+
 
 
     public String generarToken(String username,String role){
@@ -48,11 +52,12 @@ public class JwtUtils {
 
     public String crearToken(Map<String, Object> claims, String subject) {
         try {
+
             return Jwts.builder()
                     .setClaims(claims)
                     .setSubject(subject)
                     .setIssuedAt(new Date(System.currentTimeMillis()))
-                    .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 horas
+                    .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10h
                     .signWith(SignatureAlgorithm.HS256, secret)
                     .compact();
         } catch (Exception ex) {

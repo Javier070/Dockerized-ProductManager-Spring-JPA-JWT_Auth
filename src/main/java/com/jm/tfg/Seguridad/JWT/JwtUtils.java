@@ -3,6 +3,7 @@ package com.jm.tfg.Seguridad.JWT;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+@Slf4j
 @Service
 public class JwtUtils {
 
@@ -53,12 +55,12 @@ public class JwtUtils {
                     .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 horas
                     .signWith(SignatureAlgorithm.HS256, secret)
                     .compact();
-        } catch (Throwable th) {
+        } catch (Exception ex) {
             // Manejar la excepción y registrarla
-            System.err.println("Error al crear el token JWT: " + th.getMessage());
-            th.printStackTrace();
-            //  lanzar  excepción personalizada
-            throw new RuntimeException("Error al crear el token JWT", th);
+            log.error("Error al crear el token JWT", ex);
+            // Lanzar excepción personalizada
+            throw new RuntimeException("Error al crear el token JWT", ex);
+
         }
     }
 

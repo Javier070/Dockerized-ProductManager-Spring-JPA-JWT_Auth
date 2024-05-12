@@ -12,7 +12,7 @@ public class TfgUtils {
     }
 
     public static ResponseEntity<String> personalizaResponseEntity(String responseMessage, HttpStatus httpStatus) {
-        return ResponseEntity.status(httpStatus).body("{\"message\":\"" + responseMessage + "\"}");
+        return ResponseEntity.status(httpStatus).body("{\"mensaje\":\"" + responseMessage + "\"}");
     }
 
 

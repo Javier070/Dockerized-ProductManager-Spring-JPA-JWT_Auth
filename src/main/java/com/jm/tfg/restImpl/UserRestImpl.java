@@ -1,37 +1,19 @@
 package com.jm.tfg.restImpl;
-
-import com.jm.tfg.Seguridad.CustomerDetailsService;
 import com.jm.tfg.Seguridad.JWT.JwtUtils;
 import com.jm.tfg.constantes.TfgConstants;
 import com.jm.tfg.rest.UserRest;
 import com.jm.tfg.service.UserService;
 import com.jm.tfg.utils.TfgUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.security.PublicKey;
 import java.util.Map;
 @Slf4j
 @RestController
 public class UserRestImpl implements UserRest {
-
-    private static final Logger logger = LoggerFactory.getLogger(UserRestImpl.class);
-    @Autowired
-    private CustomerDetailsService customerDetailsService;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
     @Autowired
     UserService userService;
 
@@ -40,13 +22,12 @@ public class UserRestImpl implements UserRest {
 
     @Override
     public ResponseEntity<String> registro(Map<String, String> requestMap) {
-
         try {
                 return userService.registro(requestMap);
         }catch (Exception ex){
-            ex.printStackTrace();
+            log.error("Error al registrarse", ex);
         }
-        return null;
+        return TfgUtils.personalizaResponseEntity("", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 

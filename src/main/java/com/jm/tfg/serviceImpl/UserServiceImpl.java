@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<String> login(Map<String, String> requestMap) {
-        log.warn("Dentro de login");
+        log.info("Dentro de login");
         System.out.println("estamos dentro");
         try {
             Authentication authentication = authenticationManager.authenticate(
@@ -75,12 +75,11 @@ public class UserServiceImpl implements UserService {
                     return ResponseEntity.ok("{\"token\": \"" +
                             jwtUtils.generarToken(user.getEmail(), user.getRole()) + "\"}");
                 } else {
-                    return ResponseEntity.badRequest().body("{\"message\": \"Espera para ser aceptado por el administrador\"}");
+                    return ResponseEntity.badRequest().body("{\"mensaje\": \"Espera para ser aceptado por el administrador\"}");
                 }
             }
         } catch (Exception ex) {
             log.error("Error en la autenticación", ex);
-            System.out.println("Error en la autenticación");
         }
         return ResponseEntity.badRequest().body("{\"message\": \"Credenciales incorrectas\"}");
     }

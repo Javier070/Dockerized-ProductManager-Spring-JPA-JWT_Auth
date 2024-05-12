@@ -5,21 +5,14 @@ import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import java.io.Serial;
-import java.io.Serializable;
-
 @NamedQuery(name = "User.findByEmail", query = "select u from User u where u.email=:email")
 //TODO mejora esta clase con @
 @Data
 @Entity
 @Table(name = "user")
-@DynamicInsert//EXPLICA ESTO
-@DynamicUpdate//EXPLICA ESTO
-@NoArgsConstructor
-@AllArgsConstructor
-public class User implements Serializable { //puedes borrar la clase serializable ya que @Restcontroller ya se encarga de esto
-    @Serial
-    private  static  final  long serialVersionUID = 1L;
+@DynamicInsert// genera sentencias omitiendo campos con valores nulos, mejorando la eficiencia en la inserción de datos.
+@DynamicUpdate//genera sentencias de actualización omitiendo campos que no han cambiado, optimizando la eficiencia en operaciones de actualización en la base de datos.
+public class User{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

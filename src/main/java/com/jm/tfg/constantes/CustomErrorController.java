@@ -1,4 +1,4 @@
-package com.jm.tfg.restImpl;
+package com.jm.tfg.constantes;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;

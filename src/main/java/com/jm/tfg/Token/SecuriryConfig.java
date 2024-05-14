@@ -34,7 +34,7 @@ public class SecuriryConfig   {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user/login", "/user/forgotPassword", "/user/registro", "/user/verifyToken", "/category/agregar").permitAll() // Permitir acceso sin autenticación a estas rutas,
-//                        .requestMatchers("/**").permitAll() // Permitir acceso sin autenticación a todas las rutas
+                        .requestMatchers("/**").permitAll() // Permitir acceso sin autenticación a todas las rutas
 //                        .requestMatchers("/admin/**").hasRole("ADMIN") // Requiere el rol "ADMIN" para las rutas bajo /admin
                         .anyRequest().authenticated())
                 .formLogin(withDefaults())

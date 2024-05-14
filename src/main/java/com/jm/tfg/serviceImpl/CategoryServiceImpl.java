@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -68,8 +69,21 @@ public class CategoryServiceImpl implements CategoryService {
         return category;
     }
     @Override
-    public ResponseEntity<List<Category>> getAllCategoria(String filerValue) {
-        return null;
+    public ResponseEntity<List<Category>> getAllCategoria(String filterValue) {
+
+        try {
+            if (filterValue != null && !filterValue.isEmpty()) {
+                    if(filterValue.equalsIgnoreCase("true")){
+                        log.info("Dentro de get all categoria");
+                return new ResponseEntity<List<Category>>(categoryRepository.findAll(), HttpStatus.OK);
+                }
+            }
+            return new ResponseEntity<>(categoryRepository.findAll(), HttpStatus.OK);
+
+        }catch (Exception ex){
+            log.error("Error al obtener todas las categorias desde el service", ex);
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ArrayList<>());
     }
 
 

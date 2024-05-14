@@ -41,13 +41,12 @@ public class CategoryRestImpl {
     }
 
 
-    @GetMapping("/get")
-    public ResponseEntity<List<Category>> getAllCategoria(@RequestParam(required = false) String filerValue){
+    @GetMapping("/getAll")
+    public ResponseEntity<List<Category>> getAllCategoria(@RequestParam(required = false) String filterValue){
             try{
-                  return  categoryService.getAllCategoria(filerValue);
+                  return  categoryService.getAllCategoria(filterValue);
             }catch (Exception ex){
                 log.error("Error al obtener todas las categorias", ex);
-
             }
             return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR); //todo cambiar esto
     }

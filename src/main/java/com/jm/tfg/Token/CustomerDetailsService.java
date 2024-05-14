@@ -1,4 +1,4 @@
-package com.jm.tfg.Seguridad;
+package com.jm.tfg.Token;
 
 import com.jm.tfg.Entidades.User;
 import com.jm.tfg.dao.UserDAO;

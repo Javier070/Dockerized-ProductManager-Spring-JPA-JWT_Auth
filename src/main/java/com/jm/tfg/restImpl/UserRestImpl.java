@@ -1,5 +1,5 @@
 package com.jm.tfg.restImpl;
-import com.jm.tfg.Seguridad.JWT.JwtUtils;
+import com.jm.tfg.Token.JWT.JwtUtils;
 import com.jm.tfg.constantes.TfgConstants;
 import com.jm.tfg.rest.UserRest;
 import com.jm.tfg.service.UserService;

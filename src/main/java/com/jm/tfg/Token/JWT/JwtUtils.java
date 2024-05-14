@@ -1,4 +1,4 @@
-package com.jm.tfg.Seguridad.JWT;
+package com.jm.tfg.Token.JWT;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

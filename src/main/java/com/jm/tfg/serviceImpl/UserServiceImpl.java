@@ -1,8 +1,8 @@
 package com.jm.tfg.serviceImpl;
 
 import com.jm.tfg.Entidades.User;
-import com.jm.tfg.Seguridad.CustomerDetailsService;
-import com.jm.tfg.Seguridad.JWT.JwtUtils;
+import com.jm.tfg.Token.CustomerDetailsService;
+import com.jm.tfg.Token.JWT.JwtUtils;
 import com.jm.tfg.constantes.TfgConstants;
 import com.jm.tfg.dao.UserDAO;
 import com.jm.tfg.service.UserService;

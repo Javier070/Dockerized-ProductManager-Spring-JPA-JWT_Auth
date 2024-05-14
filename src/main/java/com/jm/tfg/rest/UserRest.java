@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Map;
 
-@RequestMapping(path = "/user")
+@RequestMapping( "/user")
 public interface UserRest {
     @PostMapping("/registro")
     public ResponseEntity<String> registro (@RequestBody (required = true)Map<String, String> requestMap);

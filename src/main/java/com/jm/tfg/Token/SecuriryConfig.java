@@ -1,6 +1,6 @@
-package com.jm.tfg.Seguridad;
+package com.jm.tfg.Token;
 
-import com.jm.tfg.Seguridad.JWT.JwtFilter;
+import com.jm.tfg.Token.JWT.JwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,10 +33,9 @@ public class SecuriryConfig   {
                 .cors(cors -> cors.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/user/login", "/user/forgotPassword", "/user/registro", "/user/verifyToken").permitAll() // Permitir acceso sin autenticación a estas rutas,
+                        .requestMatchers("/user/login", "/user/forgotPassword", "/user/registro", "/user/verifyToken", "/category/agregar").permitAll() // Permitir acceso sin autenticación a estas rutas,
 //                        .requestMatchers("/**").permitAll() // Permitir acceso sin autenticación a todas las rutas
 //                        .requestMatchers("/admin/**").hasRole("ADMIN") // Requiere el rol "ADMIN" para las rutas bajo /admin
-                        .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN") // Requiere los roles "USER" o "ADMIN" para las rutas bajo /user
                         .anyRequest().authenticated())
                 .formLogin(withDefaults())
                 .httpBasic(withDefaults())

@@ -1,6 +1,6 @@
-package com.jm.tfg.Seguridad.JWT;
+package com.jm.tfg.Token.JWT;
 
-import com.jm.tfg.Seguridad.CustomerDetailsService;
+import com.jm.tfg.Token.CustomerDetailsService;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -31,27 +31,36 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (request.getServletPath().matches("/user/login|/user/forgotPassword|/user/registro|/user/verifyToken")){
+        if (request.getServletPath().matches("/user/login|/user/forgotPassword|/user/registro|")) {
             filterChain.doFilter(request, response);
         }
         else {
             String authorizationHeader = request.getHeader("Authorization");
             String token = null; // se inicializa el token
 
-            if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){ // 7 caracteresj
+
+            if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){ // 7 caracteres
                 token = authorizationHeader.substring(7);
-                username = jwtUtils.extraerUsuarioNombre(token);
-                claims = jwtUtils.extraerTodosReclamos(token);
+                try {
+                    username = jwtUtils.extraerUsuarioNombre(token);
+                    claims = jwtUtils.extraerTodosReclamos(token);
+                } catch (Exception e) {
+                    // Registrar la excepción
+                    logger.error("Error al extraer usuario y reclamos en el metodo doFilterInternal: " + e.getMessage());
+                }
             }
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null){
+                try {
                 UserDetails userDetails = customerDetailsService.loadUserByUsername(username);
                 if (jwtUtils.validaToken(token,userDetails)){
                     UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                             new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     new WebAuthenticationDetailsSource().buildDetails(request);
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-
-
+                }
+                } catch (Exception e) {
+                    // Registrar la excepción
+                    logger.error("Error durante la validación del token JWT y la autenticación del usuario  en el metodo doFilterInternal: " + e.getMessage());
                 }
             }
             filterChain.doFilter(request, response);
@@ -59,12 +68,13 @@ public class JwtFilter extends OncePerRequestFilter {
         }
     }
 
-    public Boolean isAdmin() {
-        return "admin".equalsIgnoreCase((String) claims.get("role"));
+    public boolean isAdmin() {
+        return "admin".equalsIgnoreCase(String.valueOf(claims.get("role")));
     }
 
-    public Boolean isUser() {
-        return "user".equalsIgnoreCase((String) claims.get("role"));
+
+    public boolean isUser() {
+        return "user".equalsIgnoreCase(String.valueOf(claims.get("role")));
     }
 
     public String getCurrentUser() {

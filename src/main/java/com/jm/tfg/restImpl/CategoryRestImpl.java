@@ -25,10 +25,16 @@ public class CategoryRestImpl {
     @Autowired
     CategoryService categoryService;
 
-//    @GetMapping( path = "/todasCategory")
-//    public ResponseEntity<String> getTodasCategory(String category){
-//    }
 
+    @GetMapping("/getAll")
+    public ResponseEntity<List<Category>> getAllCategoria(@RequestParam(required = false) String filterValue){
+        try{
+            return  categoryService.getAllCategoria(filterValue);
+        }catch (Exception ex){
+            log.error("Error al obtener todas las categorias", ex);
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ArrayList<>());
+    }
 
     @PostMapping("/agregar")
     public ResponseEntity<String>agregarNuevaCategoria(@RequestBody Map<String, String>requestMap){
@@ -41,13 +47,17 @@ public class CategoryRestImpl {
     }
 
 
-    @GetMapping("/getAll")
-    public ResponseEntity<List<Category>> getAllCategoria(@RequestParam(required = false) String filterValue){
-            try{
-                  return  categoryService.getAllCategoria(filterValue);
-            }catch (Exception ex){
-                log.error("Error al obtener todas las categorias", ex);
-            }
-            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR); //todo cambiar esto
+
+
+    @PostMapping(path = "/update")
+    ResponseEntity<String>updateCategory(@RequestBody Map<String,String> requestMap){
+        try{
+                return  categoryService.updateCategory(requestMap);
+        }catch (Exception ex){
+            log.error("Error al actualizar categoria en el controlador", ex);
+
+        }
+
+        return TfgUtils.getResponseEntity(TfgConstants.ALGO_SALE_MAL+"en el controlador de update", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

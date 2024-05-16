@@ -30,13 +30,13 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public ResponseEntity<String> agregarNuevaCategoria(Map<String, String> requestMap) {
         try {
-            if(jwtFilter.isAdmin()){
-                if(validarCategoria(requestMap, false)) {
+            if (jwtFilter.isAdmin()) {
+                if (validarCategoria(requestMap, false)) {
                     categoryRepository.save(getCategorydeMap(requestMap, false));
                     return TfgUtils.personalizaResponseEntity("La categoia fue agregada correctamente", HttpStatus.CREATED);
                 }
-            }else{
-                return  TfgUtils.personalizaResponseEntity(TfgConstants.ACCESO_NO_AUTORIZADO, HttpStatus.UNAUTHORIZED);
+            } else {
+                return TfgUtils.personalizaResponseEntity(TfgConstants.ACCESO_NO_AUTORIZADO, HttpStatus.UNAUTHORIZED);
             }
         } catch (Exception ex) {
             log.error("error pocho", ex);
@@ -46,49 +46,45 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
 
-
     private boolean validarCategoria(Map<String, String> requestMap, boolean validarId) {
         /**
          *  El parámetro booleano validarId en el método validarCategoria() indica si se debe validar la existencia de la clave "id" en el mapa de solicitud.
-// Si validarId es true, se realiza la validación de la existencia de "id"; si es false, no se realiza dicha validación, esto dependera de si queremos crearlo caso en el que
-// sera false ya que no podemos validar un id que aun no existe pero por el contario debemos de hacerlo si queremos hacer un update.*/
+         // Si validarId es true, se realiza la validación de la existencia de "id"; si es false, no se realiza dicha validación, esto dependera de si queremos crearlo caso en el que
+         // sera false ya que no podemos validar un id que aun no existe pero por el contario debemos de hacerlo si queremos hacer un update.*/
 
 
-        if(requestMap.containsKey("name")){
-            if (requestMap.containsKey("id")&& validarId){
-                return true;
-            }else {
-                if (validarId) {
-                    return false;
-                }
-                return true;
+        if (requestMap.containsKey("name")) {
+            if (validarId) {
+                return requestMap.containsKey("id");
             }
+            return true;
         }
         return false;
     }
 
     private Category getCategorydeMap(Map<String, String> requestMap, Boolean esNuevo) {
         Category category = new Category();
-        if(esNuevo){
+        if (esNuevo) {
             category.setId(Long.parseLong(requestMap.get("id")));
         }
         category.setName(requestMap.get("name"));
         return category;
     }
+
     @Override
     // todo rehacer este metodo sin tanto new
     public ResponseEntity<List<Category>> getAllCategoria(String filterValue) {
 
         try {
             if (filterValue != null && !filterValue.isEmpty()) {
-                    if(filterValue.equalsIgnoreCase("true")){
-                        log.info("Dentro de get all categoria");
-                return new ResponseEntity<>(categoryRepository.findAll(), HttpStatus.OK);
+                if (filterValue.equalsIgnoreCase("true")) {
+                    log.info("Dentro de get all categoria");
+                    return new ResponseEntity<>(categoryRepository.findAll(), HttpStatus.OK);
                 }
             }
             return new ResponseEntity<>(categoryRepository.findAll(), HttpStatus.OK);
 
-        }catch (Exception ex){
+        } catch (Exception ex) {
             log.error("Error al obtener todas las categorias desde el service", ex);
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ArrayList<>());
@@ -107,17 +103,14 @@ public class CategoryServiceImpl implements CategoryService {
                         return TfgUtils.personalizaResponseEntity("La id de la categoría no existe", HttpStatus.NOT_FOUND);
                     }
                 }
-                }else{
-                    return TfgUtils.personalizaResponseEntity(TfgConstants.ACCESO_NO_AUTORIZADO, HttpStatus.UNAUTHORIZED);
-                }
+            } else {
+                return TfgUtils.personalizaResponseEntity(TfgConstants.ACCESO_NO_AUTORIZADO, HttpStatus.UNAUTHORIZED);
+            }
         } catch (Exception ex) {
             log.error("Error al actualizar categoría en service", ex);
         }
         return TfgUtils.personalizaResponseEntity(TfgConstants.ALGO_SALE_MAL + " en el controlador de update", HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
-
-
 
 
 }

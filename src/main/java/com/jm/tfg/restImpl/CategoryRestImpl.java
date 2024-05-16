@@ -45,10 +45,6 @@ public class CategoryRestImpl {
         }
      return TfgUtils.personalizaResponseEntity(TfgConstants.ALGO_SALE_MAL, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
-
-
-
     @PostMapping(path = "/update")
     ResponseEntity<String>updateCategory(@RequestBody Map<String,String> requestMap){
         try{
@@ -57,7 +53,18 @@ public class CategoryRestImpl {
             log.error("Error al actualizar categoria en el controlador", ex);
 
         }
-
         return TfgUtils.getResponseEntity(TfgConstants.ALGO_SALE_MAL+"en el controlador de update", HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    @DeleteMapping(path = "/delete{id}")
+    public ResponseEntity<String>deleteCategory(@PathVariable Long id){
+        try {
+            return categoryService.deleteCategory(id);
+        }catch (Exception ex){
+            log.error("Error al eliminar categoria en controller", ex);
+        }
+       return TfgUtils.personalizaResponseEntity(TfgConstants.ALGO_SALE_MAL, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+
+
 }

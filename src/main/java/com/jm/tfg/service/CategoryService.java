@@ -14,4 +14,6 @@ public interface CategoryService{
     ResponseEntity<List<Category>> getAllCategoria(String filerValue);
 
     ResponseEntity<String> updateCategory(Map<String, String> requestMap);
+
+    ResponseEntity<String> deleteCategory(Long id);
 }

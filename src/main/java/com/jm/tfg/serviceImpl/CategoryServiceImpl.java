@@ -109,7 +109,26 @@ public class CategoryServiceImpl implements CategoryService {
         } catch (Exception ex) {
             log.error("Error al actualizar categoría en service", ex);
         }
-        return TfgUtils.personalizaResponseEntity(TfgConstants.ALGO_SALE_MAL + " en el controlador de update", HttpStatus.INTERNAL_SERVER_ERROR);
+        return TfgUtils.personalizaResponseEntity(TfgConstants.ALGO_SALE_MAL + " en el serivce de update", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<String> deleteCategory(Long id) {
+        try {
+            if (jwtFilter.isAdmin()) {
+                Optional <Category>  optional = categoryRepository.findById(id);
+                if (optional.isPresent()) {
+                    categoryRepository.deleteById(id);
+                    return TfgUtils.personalizaResponseEntity("La categoría fue eliminada correctamente", HttpStatus.OK);
+                }
+                return TfgUtils.personalizaResponseEntity("La id de la categoría no existe", HttpStatus.NOT_FOUND);
+            }else {
+                return TfgUtils.personalizaResponseEntity(TfgConstants.ACCESO_NO_AUTORIZADO, HttpStatus.UNAUTHORIZED);
+            }
+        }catch (Exception ex) {
+            log.error("Error al actualizar categoría en service", ex);
+        }
+        return TfgUtils.personalizaResponseEntity(TfgConstants.ALGO_SALE_MAL + " en el serivce de update", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 

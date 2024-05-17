@@ -4,7 +4,7 @@ import com.jm.tfg.Entidades.User;
 import com.jm.tfg.Token.CustomerDetailsService;
 import com.jm.tfg.Token.JWT.JwtUtils;
 import com.jm.tfg.constantes.TfgConstants;
-import com.jm.tfg.dao.UserDAO;
+import com.jm.tfg.Repo.UserDAO;
 import com.jm.tfg.service.UserService;
 import com.jm.tfg.utils.TfgUtils;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.jm.tfg.dao;
+package com.jm.tfg.Repo;
 
 import com.jm.tfg.Entidades.Category;
 import org.springframework.data.jpa.repository.JpaRepository;

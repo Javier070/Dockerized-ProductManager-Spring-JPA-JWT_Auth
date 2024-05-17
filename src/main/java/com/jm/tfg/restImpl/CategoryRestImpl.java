@@ -25,15 +25,17 @@ public class CategoryRestImpl {
     @Autowired
     CategoryService categoryService;
 
-
     @GetMapping("/getAll")
-    public ResponseEntity<List<Category>> getAllCategoria(@RequestParam(required = false) String filterValue){
+
+    public ResponseEntity<List<Category>> getAllCategoria(){
+        ArrayList<Category> arrayError = new ArrayList<Category>();// Cuando la respuesta des de error, se devuelve un array vacio
         try{
-            return  categoryService.getAllCategoria(filterValue);
+            return  categoryService.getAllCategoria();
         }catch (Exception ex){
             log.error("Error al obtener todas las categorias", ex);
         }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ArrayList<>());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(arrayError);
+
     }
 
     @PostMapping("/agregar")
@@ -53,7 +55,7 @@ public class CategoryRestImpl {
             log.error("Error al actualizar categoria en el controlador", ex);
 
         }
-        return TfgUtils.getResponseEntity(TfgConstants.ALGO_SALE_MAL+"en el controlador de update", HttpStatus.INTERNAL_SERVER_ERROR);
+        return TfgUtils.personalizaResponseEntity(TfgConstants.ALGO_SALE_MAL+"en el controlador de update", HttpStatus.INTERNAL_SERVER_ERROR);
     }
     @DeleteMapping(path = "/delete{id}")
     public ResponseEntity<String>deleteCategory(@PathVariable Long id){

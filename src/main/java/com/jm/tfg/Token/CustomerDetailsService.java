@@ -1,7 +1,7 @@
 package com.jm.tfg.Token;
 
 import com.jm.tfg.Entidades.User;
-import com.jm.tfg.dao.UserDAO;
+import com.jm.tfg.Repo.UserDAO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

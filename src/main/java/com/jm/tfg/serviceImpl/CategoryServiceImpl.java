@@ -29,7 +29,7 @@ public class CategoryServiceImpl implements CategoryService {
         List<Category> arrayError = new ArrayList<>();// Cuando la respuesta des de error, se devuelve un array vacio
         List<Category> categories = categoryRepository.findAll();
         try {
-            return ResponseEntity.ok(categories);
+            return ResponseEntity.status(HttpStatus.OK).body(categories);
         } catch (Exception ex) {
             log.error("Error al obtener todas las categorias desde el service", ex);
         }
@@ -44,7 +44,7 @@ public class CategoryServiceImpl implements CategoryService {
     public ResponseEntity<String> agregarNuevaCategoria(Map<String, String> requestMap) {
         try {
             if (jwtFilter.isAdmin()) {
-                if (validarCategoria(requestMap, false)) {
+                if (TfgUtils.validarCategoriaProducto(requestMap, false)) {
                     categoryRepository.save(getCategorydeMap(requestMap, false));
                     return TfgUtils.personalizaResponseEntity("La categoría fue agregada correctamente", HttpStatus.CREATED);
                 }
@@ -68,13 +68,13 @@ public class CategoryServiceImpl implements CategoryService {
     public ResponseEntity<String> updateCategory(Map<String, String> requestMap) {
         try {
             if (jwtFilter.isAdmin()) {
-                if (validarCategoria(requestMap, true)) {
+                if (TfgUtils.validarCategoriaProducto(requestMap, true)) {
                     Optional<Category> optional = categoryRepository.findById(Long.parseLong(requestMap.get("id")));
                     if (optional.isPresent()) {
                         categoryRepository.save(getCategorydeMap(requestMap, true));
                         return TfgUtils.personalizaResponseEntity("La categoría fue actualizada correctamente", HttpStatus.OK);
                     } else {
-                        return TfgUtils.personalizaResponseEntity("La id de la categoría no existe", HttpStatus.NOT_FOUND);
+                        return TfgUtils.personalizaResponseEntity("El id: "+requestMap.get("id")+" asociado a la categoría: " + requestMap.get("name") + " no existe", HttpStatus.NOT_FOUND);
                     }
                 }
             } else {
@@ -109,33 +109,27 @@ public class CategoryServiceImpl implements CategoryService {
 
 
 
-
-    private Category getCategorydeMap(Map<String, String> requestMap, Boolean esNuevo) {
+    /**
+     * Crea un objeto Category a partir de un mapa de datos.
+     *
+     * <p>Este método construye y retorna un objeto {@code Category} utilizando la información proporcionada
+     * en el mapa {@code requestMap}. Si el parámetro {@code isAdd} es {@code true}, también establece el ID de la categoría.</p>
+     *
+     * @param requestMap un mapa que contiene la información de la categoría, con claves como "id" y "name"
+     * @param isAdd un booleano que indica si se debe establecer el ID de la categoría; {@code true} para establecer el ID, {@code false} para no hacerlo
+     * @return un objeto {@code Category} construido a partir de los datos proporcionados en {@code requestMap}
+     */
+    private Category getCategorydeMap(Map<String, String> requestMap, Boolean isAdd) {
         Category category = new Category();
-        if (esNuevo) {
+        category.setName(requestMap.get("name"));
+        if (isAdd) {
             category.setId(Long.parseLong(requestMap.get("id")));
         }
-        category.setName(requestMap.get("name"));
         return category;
     }
 
 
 
-    private boolean validarCategoria(Map<String, String> requestMap, boolean validarId) {
-        /**
-         *  El parámetro booleano validarId en el método validarCategoria() indica si se debe validar la existencia de la clave "id" en el mapa de solicitud.
-         // Si validarId es true, se realiza la validación de la existencia de "id"; si es false, no se realiza dicha validación, esto dependera de si queremos crearlo caso en el que
-         // sera false ya que no podemos validar un id que aun no existe pero por el contario debemos de hacerlo si queremos hacer un update.
 
-         //si es flase solo valida que name este bien y exista, si es true tambien lo hace con el id
-         */
-        if (requestMap.containsKey("name")) {
-            if (validarId) {
-                return requestMap.containsKey("id");
-            }
-            return true;
-        }
-        return false;
-    }
 
 }

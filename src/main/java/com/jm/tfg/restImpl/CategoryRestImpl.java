@@ -26,7 +26,6 @@ public class CategoryRestImpl {
     CategoryService categoryService;
 
     @GetMapping("/getAll")
-
     public ResponseEntity<List<Category>> getAllCategoria(){
         ArrayList<Category> arrayError = new ArrayList<Category>();// Cuando la respuesta des de error, se devuelve un array vacio
         try{

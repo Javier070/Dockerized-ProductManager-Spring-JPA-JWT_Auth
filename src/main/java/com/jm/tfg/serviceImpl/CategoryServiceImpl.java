@@ -48,19 +48,13 @@ public class CategoryServiceImpl implements CategoryService {
                     categoryRepository.save(getCategorydeMap(requestMap, false));
                     return TfgUtils.personalizaResponseEntity("La categoría fue agregada correctamente", HttpStatus.CREATED);
                 }
-
-            }else {
+                return TfgUtils.personalizaResponseEntity(TfgConstants.DATOS_NO_VALIDOS, HttpStatus.BAD_REQUEST);
+            }
                 return TfgUtils.personalizaResponseEntity(TfgConstants.ACCESO_NO_AUTORIZADO, HttpStatus.UNAUTHORIZED);
-             }
         } catch (Exception ex) {
             log.error("Error al agregar categoría", ex);
         }
         return TfgUtils.personalizaResponseEntity(TfgConstants.ALGO_SALE_MAL, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    @Override
-    public ResponseEntity<List<Category>> getAllCategoria(String filerValue) {
-        return null;
     }
 
 
@@ -76,6 +70,8 @@ public class CategoryServiceImpl implements CategoryService {
                     } else {
                         return TfgUtils.personalizaResponseEntity("El id: "+requestMap.get("id")+" asociado a la categoría: " + requestMap.get("name") + " no existe", HttpStatus.NOT_FOUND);
                     }
+                }else{
+                    return TfgUtils.personalizaResponseEntity(TfgConstants.DATOS_NO_VALIDOS, HttpStatus.BAD_REQUEST);
                 }
             } else {
                 return TfgUtils.personalizaResponseEntity(TfgConstants.ACCESO_NO_AUTORIZADO, HttpStatus.UNAUTHORIZED);
@@ -95,7 +91,7 @@ public class CategoryServiceImpl implements CategoryService {
                     categoryRepository.deleteById(id);
                     return TfgUtils.personalizaResponseEntity("La categoría fue eliminada correctamente", HttpStatus.OK);
                 }
-                return TfgUtils.personalizaResponseEntity("La id de la categoría no existe", HttpStatus.NOT_FOUND);
+                return TfgUtils.personalizaResponseEntity("El id no existe", HttpStatus.NOT_FOUND);
             }else {
                 return TfgUtils.personalizaResponseEntity(TfgConstants.ACCESO_NO_AUTORIZADO, HttpStatus.UNAUTHORIZED);
             }

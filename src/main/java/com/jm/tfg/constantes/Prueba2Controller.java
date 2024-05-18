@@ -10,7 +10,7 @@ public class Prueba2Controller {
 
     @PostMapping("/agregar")
     public String agregarNuevaCategoria(@RequestBody Map<String, String> requestMap) {
-        boolean isAdmin = false; // Supongamos que el usuario es un administrador  TODO CAMBIAR DE TRUE A FALSE Y VICEVERSA
+        boolean isAdmin = false; // Supongamos que el usuario es un administrador  llllllTODO CAMBIAR DE TRUE A FALSE Y VICEVERSA
         boolean isValidCategory = true; // Supongamos que la categoría es válida
         int resultado = 10/0;
         try {

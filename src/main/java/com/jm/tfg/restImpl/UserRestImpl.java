@@ -74,7 +74,7 @@ public class UserRestImpl implements UserRest {
 //Primer commit
 
 /**
- * Métodos para iniciar sesión y registro que estan mal
+ * funciones para iniciar sesión y registro que estan mal
  * @return
  *
  *

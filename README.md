@@ -13,3 +13,6 @@ se encuentre un //todo (eso son cosas que faltan por hacer)
 Cuando el programa da error al hacer isAdmin() puede que se
 dena a que el token esta vacio, gestiona este error para que
 devuelva un mensaje explicando la situacion
+
+#En la calse SecurirityConfig cambia el método NoOpPasswordEncoder.getInstance();
+ese método esta desactualizado

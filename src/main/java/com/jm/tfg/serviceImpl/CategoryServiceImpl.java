@@ -67,7 +67,7 @@ public class CategoryServiceImpl implements CategoryService {
         try {
             if (jwtFilter.isAdmin()) {
                 if (TfgUtils.validarCategoriaProducto(requestMap, false, true)) {
-                    categoryRepository.save(getCategorydeMap(requestMap, false));
+                    categoryRepository.save(getCategorydeMap(requestMap, false)); //todo, que hace este false
                     return TfgUtils.personalizaResponseEntity("La categoría fue agregada correctamente", HttpStatus.CREATED);
                 }
                 return TfgUtils.personalizaResponseEntity(TfgConstants.DATOS_NO_VALIDOS, HttpStatus.BAD_REQUEST);

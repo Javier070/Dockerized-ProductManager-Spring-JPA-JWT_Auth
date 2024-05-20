@@ -66,7 +66,7 @@ public class CategoryServiceImpl implements CategoryService {
     public ResponseEntity<String> agregarNuevaCategoria(Map<String, String> requestMap) {
         try {
             if (jwtFilter.isAdmin()) {
-                if (TfgUtils.validarCategoriaProducto(requestMap, false)) {
+                if (TfgUtils.validarCategoriaProducto(requestMap, false, true)) {
                     categoryRepository.save(getCategorydeMap(requestMap, false));
                     return TfgUtils.personalizaResponseEntity("La categoría fue agregada correctamente", HttpStatus.CREATED);
                 }
@@ -84,7 +84,7 @@ public class CategoryServiceImpl implements CategoryService {
     public ResponseEntity<String> updateCategory(Map<String, String> requestMap) {
         try {
             if (jwtFilter.isAdmin()) {
-                if (TfgUtils.validarCategoriaProducto(requestMap, true)) {
+                if (TfgUtils.validarCategoriaProducto(requestMap, true, true)) {
                     Optional<Category> optional = categoryRepository.findById(Long.parseLong(requestMap.get("id")));
                     if (optional.isPresent()) {
                         categoryRepository.save(getCategorydeMap(requestMap, true));

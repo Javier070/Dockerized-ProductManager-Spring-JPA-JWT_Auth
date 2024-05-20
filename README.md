@@ -9,3 +9,7 @@ un user con: el status "true" y el rol "user"
 ---
 Busca las partes del codigo donde
 se encuentre un //todo (eso son cosas que faltan por hacer)
+
+Cuando el programa da error al hacer isAdmin() puede que se
+dena a que el token esta vacio, gestiona este error para que
+devuelva un mensaje explicando la situacion

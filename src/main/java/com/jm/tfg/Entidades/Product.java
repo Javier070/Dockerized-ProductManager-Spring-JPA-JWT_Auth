@@ -1,11 +1,12 @@
 package com.jm.tfg.Entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Entity
 @Table(name = "product")
@@ -18,7 +19,7 @@ public class Product {
     @Column
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)// he cambiado el fetch a eager para que se cargue la categoria
     @JoinColumn(name = "category_fk", nullable = false)
     private Category category;
 

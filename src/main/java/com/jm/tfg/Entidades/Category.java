@@ -1,12 +1,11 @@
 package com.jm.tfg.Entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
-
+@AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
 @Data
 @Entity
 @Table(name = "category")

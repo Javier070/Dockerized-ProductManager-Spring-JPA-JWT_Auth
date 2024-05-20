@@ -17,4 +17,6 @@ public interface CategoryService{
     ResponseEntity<String> deleteCategory(Long id);
 
     ResponseEntity<List<Category>> getAllCategoria();
+
+    ResponseEntity<List<Category>> getAllCategoria2(String filterValue);
 }

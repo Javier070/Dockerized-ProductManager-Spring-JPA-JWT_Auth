@@ -1,4 +1,5 @@
 package com.jm.tfg.serviceImpl;
+import com.google.common.base.Strings;
 import com.jm.tfg.Entidades.Category;
 import com.jm.tfg.Token.JWT.JwtFilter;
 import com.jm.tfg.constantes.TfgConstants;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -35,10 +38,29 @@ public class CategoryServiceImpl implements CategoryService {
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(arrayError);
     }
-
-
-
-
+/**hay dos opciones, cuando el admin va a agregar una nueva categoria, o un nuevo producto en ese
+ * caso  tienen que ser visbles todas las categorias inclusio si tiene o no producto, en ese caso le
+ * pasamos true en filterValue, esto hara que podramos recuperar todas las categorias y productos,
+ * ademas no verifica si existe algún producto en esa categoria
+ *
+ * si un empleado entra sera flase filter value y busca todas las categorias solo le saldran las que almenos tengan un producto
+ *
+ */
+//todo documentar la funcion getAllCategoria2
+@Override
+    public ResponseEntity<List<Category>> getAllCategoria2(String filterValue) {
+    List<Category> arrayError = new ArrayList<>();// ran dom la respuesta des de error, se devuelve un array vacio
+    try {
+        if ((filterValue!= null && filterValue.equalsIgnoreCase("true"))) {
+            log.info("somos true");
+            return ResponseEntity.status(HttpStatus.OK).body(categoryRepository.findCategoriesWithActiveProducts()); //todo alomejor cambiar esto por getAllcategory
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(categoryRepository.findAll());
+    } catch (Exception ex) {
+        log.error("Error al obtener todas las categorias desde el service", ex);
+    }
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(arrayError);
+}
 
     @Override
     public ResponseEntity<String> agregarNuevaCategoria(Map<String, String> requestMap) {

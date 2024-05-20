@@ -25,9 +25,21 @@ public class CategoryRestImpl {
     @Autowired
     CategoryService categoryService;
 
+    @GetMapping("/getAll2")
+    public ResponseEntity<List<Category>> getAllCategoria2(@RequestParam(required = false) String filterValue){
+        ArrayList<Category> arrayError = new ArrayList<>();// Cuando la respuesta des de error, se devuelve un array vacio
+        try{
+            return  categoryService.getAllCategoria2(filterValue);
+        }catch (Exception ex){
+            log.error("Error al obtener todas las categorias", ex);
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(arrayError);
+
+    }
+
     @GetMapping("/getAll")
     public ResponseEntity<List<Category>> getAllCategoria(){
-        ArrayList<Category> arrayError = new ArrayList<Category>();// Cuando la respuesta des de error, se devuelve un array vacio
+        ArrayList<Category> arrayError = new ArrayList<>();// Cuando la respuesta des de error, se devuelve un array vacio
         try{
             return  categoryService.getAllCategoria();
         }catch (Exception ex){

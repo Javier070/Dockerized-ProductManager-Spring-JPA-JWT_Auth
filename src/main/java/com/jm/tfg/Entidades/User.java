@@ -8,6 +8,8 @@ import org.hibernate.annotations.DynamicUpdate;
 @NamedQuery(name = "User.findByEmail", query = "select u from User u where u.email=:email")
 //TODO mejora esta clase con @
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "user")
 @DynamicInsert// genera sentencias omitiendo campos con valores nulos, mejorando la eficiencia en la inserción de datos.

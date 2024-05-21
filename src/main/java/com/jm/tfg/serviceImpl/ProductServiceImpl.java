@@ -99,6 +99,24 @@ public class ProductServiceImpl   implements ProductService {
         return TfgUtils.personalizaResponseEntity(TfgConstants.ALGO_SALE_MAL+"servicio", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @Override
+    public ResponseEntity<String> deleteProduct(Long id) {
+        try {
+//            if (jwtFilter.isAdmin()){
+                Optional <Product> optional = productRepository.findById(id);
+                if (optional.isPresent()){
+                    productRepository.deleteById(id);
+                    return  TfgUtils.personalizaResponseEntity(TfgConstants.OPERACION_EXITOSA, HttpStatus.OK);
+                }
+                return TfgUtils.personalizaResponseEntity("El id no existe", HttpStatus.NOT_FOUND);
+//            }
+//            return TfgUtils.personalizaResponseEntity(TfgConstants.ACCESO_NO_AUTORIZADO, HttpStatus.UNAUTHORIZED);
+        }catch (Exception ex){
+            log.error("Error al borrar el producto servicio.",ex);
+        }
+        return TfgUtils.personalizaResponseEntity(TfgConstants.ALGO_SALE_MAL, HttpStatus.BAD_REQUEST);
+    }
+
 
     /**
      * Este método crea y configura un objeto {@code Product} a partir de un {@code requestMap}

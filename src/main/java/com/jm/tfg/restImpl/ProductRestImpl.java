@@ -53,6 +53,15 @@ public class ProductRestImpl {
         }
             return TfgUtils.personalizaResponseEntity(TfgConstants.ALGO_SALE_MAL+"en el controlador de update", HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    @DeleteMapping(path = "/delete{id}")
+    public ResponseEntity<String> deleteProduct(@PathVariable Long id){
+        try{
+            return  productService.deleteProduct(id);
+        }catch (Exception ex){
+            log.error("Error al borrar el producto.",ex);
+        }
+        return  TfgUtils.personalizaResponseEntity(TfgConstants.ALGO_SALE_MAL, HttpStatus.BAD_REQUEST);
+    }
 
 
 

@@ -3,7 +3,7 @@ package com.jm.tfg.wrapper;
 import lombok.Value;
 
 import java.io.Serializable;
-//
+
 /**
  * DTO for {@link com.jm.tfg.Entidades.Category}
  */

@@ -1,7 +1,6 @@
 package com.jm.tfg.restImpl;
 
 import com.jm.tfg.Entidades.Product;
-import com.jm.tfg.Repo.ProductRepository;
 import com.jm.tfg.constantes.TfgConstants;
 import com.jm.tfg.service.ProductService;
 import com.jm.tfg.utils.TfgUtils;
@@ -63,7 +62,34 @@ public class ProductRestImpl {
         return  TfgUtils.personalizaResponseEntity(TfgConstants.ALGO_SALE_MAL, HttpStatus.BAD_REQUEST);
     }
 
+    @PostMapping(path = "/updateStatus")
+    public ResponseEntity<String> updateStatusProduct(@RequestBody Map<String,String> requestMap){
+        try {
+            return productService.updateStatusProduct(requestMap);
+        }catch (Exception ex){
+            log.error("Error al actualizar el estado del producto", ex);
+        }
+        return TfgUtils.personalizaResponseEntity(TfgConstants.ALGO_SALE_MAL, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
+    @GetMapping(path = "/getByCategory{id}")
+    public ResponseEntity<List<Product>> getProductsByCategory(@PathVariable Long id){
+        try {
+            return productService.getProductsByCategory(id);
+        }catch (Exception ex){
+            log.error("Error al obtener los productos por categoria", ex);
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ArrayList<>());
+    }
+    @GetMapping(path = "/getById{id}")
+    public ResponseEntity<String> getProductsByIs(@PathVariable Long id) {
+        try {
+            return productService.getProductById(id);
+        }catch (Exception ex){
+            log.error("Error al obtener el producto por id", ex);
+        }
+        return TfgUtils.personalizaResponseEntity(TfgConstants.ALGO_SALE_MAL,HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
 
 }

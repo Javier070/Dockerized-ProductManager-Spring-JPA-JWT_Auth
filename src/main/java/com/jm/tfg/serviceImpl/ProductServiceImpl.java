@@ -1,7 +1,6 @@
 package com.jm.tfg.serviceImpl;
 
 import com.jm.tfg.Entidades.Category;
-
 import com.jm.tfg.Entidades.Product;
 import com.jm.tfg.Repo.ProductRepository;
 import com.jm.tfg.Token.JWT.JwtFilter;
@@ -23,7 +22,7 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-public class ProductServiceImpl   implements ProductService {
+public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
 
@@ -41,7 +40,7 @@ public class ProductServiceImpl   implements ProductService {
 
 
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ArrayList<>()); //todo camboa esto, pongo bad request para diferenciar
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ArrayList<>()); //todo camboa esto, pongo bad request para diferenciar
     }
 
 
@@ -108,13 +107,66 @@ public class ProductServiceImpl   implements ProductService {
                     productRepository.deleteById(id);
                     return  TfgUtils.personalizaResponseEntity(TfgConstants.OPERACION_EXITOSA, HttpStatus.OK);
                 }
-                return TfgUtils.personalizaResponseEntity("El id no existe", HttpStatus.NOT_FOUND);
+                return TfgUtils.personalizaResponseEntity(TfgConstants.INCORRECT_ID, HttpStatus.NOT_FOUND);
 //            }
 //            return TfgUtils.personalizaResponseEntity(TfgConstants.ACCESO_NO_AUTORIZADO, HttpStatus.UNAUTHORIZED);
         }catch (Exception ex){
             log.error("Error al borrar el producto servicio.",ex);
         }
         return TfgUtils.personalizaResponseEntity(TfgConstants.ALGO_SALE_MAL, HttpStatus.BAD_REQUEST);
+    }
+
+    @Override
+    public ResponseEntity<String> updateStatusProduct(Map<String, String> requestMap) {
+        try {
+            if(jwtFilter.isAdmin()){
+               Optional optional= productRepository.findById(Long.parseLong(requestMap.get("id")));
+               if (optional.isPresent()){
+                   productRepository.updateStatus(requestMap.get("status"),Long.parseLong(requestMap.get("id")));
+                   return TfgUtils.personalizaResponseEntity(TfgConstants.OPERACION_EXITOSA, HttpStatus.OK);
+               }
+                return TfgUtils.personalizaResponseEntity(TfgConstants.INCORRECT_ID, HttpStatus.NOT_FOUND);
+            } else{
+                return TfgUtils.personalizaResponseEntity(TfgConstants.ACCESO_NO_AUTORIZADO, HttpStatus.UNAUTHORIZED);
+            }
+
+        }catch (Exception ex){
+            log.error("Error al update el status product servicio.",ex);
+
+        }
+             return TfgUtils.personalizaResponseEntity(TfgConstants.ALGO_SALE_MAL, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<List<Product>> getProductsByCategory(Long id) {
+        try{
+            List<Product> products = productRepository.findByCategory_Id(id);
+            if (products.isEmpty()) {
+                log.error("Error al obtener los productos");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ArrayList<>());
+
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(products);
+        }catch (Exception ex){
+            log.error("Error al obtener productos por categoria servicio.",ex);
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ArrayList<>());
+    }
+
+    @Override
+    public ResponseEntity<String> getProductById(Long id) {
+        try {
+            Optional<Product> optional = productRepository.findById(id);
+            if (optional.isPresent()) {
+                return TfgUtils.personalizaResponseEntity(String.valueOf(optional), HttpStatus.OK);
+            } else {
+
+                return TfgUtils.personalizaResponseEntity("Producto no encontrado", HttpStatus.NOT_FOUND);
+            }
+        }catch (Exception ex){
+            log.error("Error al obtener producto por id servicio.",ex);
+        }
+        return TfgUtils.personalizaResponseEntity(TfgConstants.ALGO_SALE_MAL,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 

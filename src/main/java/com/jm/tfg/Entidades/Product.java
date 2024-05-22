@@ -1,6 +1,7 @@
 package com.jm.tfg.Entidades;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -10,6 +11,8 @@ import lombok.*;
 @Data
 @Entity
 @Table(name = "product")
+@JsonPropertyOrder({ "id", "name", "description", "price", "status", "category" })
+
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,5 +1,4 @@
 package com.jm.tfg.serviceImpl;
-import com.google.common.base.Strings;
 import com.jm.tfg.Entidades.Category;
 import com.jm.tfg.Token.JWT.JwtFilter;
 import com.jm.tfg.constantes.TfgConstants;
@@ -11,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -113,7 +110,7 @@ public class CategoryServiceImpl implements CategoryService {
                     categoryRepository.deleteById(id);
                     return TfgUtils.personalizaResponseEntity("La categoría fue eliminada correctamente", HttpStatus.OK);
                 }
-                return TfgUtils.personalizaResponseEntity("El id no existe", HttpStatus.NOT_FOUND);
+                return TfgUtils.personalizaResponseEntity(TfgConstants.INCORRECT_ID, HttpStatus.NOT_FOUND);
             }else {
                 return TfgUtils.personalizaResponseEntity(TfgConstants.ACCESO_NO_AUTORIZADO, HttpStatus.UNAUTHORIZED);
             }

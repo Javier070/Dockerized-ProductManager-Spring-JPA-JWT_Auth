@@ -10,7 +10,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
-
+//@Query nos brinda la oportunidad de escribir una consulta específica
+    //todo documenta esto
     @Query("SELECT c FROM Category c WHERE c.id in (SELECT p.category.id FROM Product p WHERE p.status='true') ")
     List<Category> findCategoriesWithActiveProducts();
 

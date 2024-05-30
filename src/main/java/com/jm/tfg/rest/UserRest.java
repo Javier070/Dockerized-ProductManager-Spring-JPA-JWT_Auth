@@ -1,11 +1,10 @@
 package com.jm.tfg.rest;
 
+import com.jm.tfg.Entidades.User;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RequestMapping( "/user")
@@ -16,6 +15,10 @@ public interface UserRest {
     public ResponseEntity<String> login (@RequestBody (required = true)Map<String, String> requestMap);
     @PostMapping("/verifyToken")
     ResponseEntity<String> verifyToken(@RequestHeader("Authorization") String authorizationHeader);
+
+    @GetMapping("/getAll")
+    ResponseEntity<List<User>> getAllUsers();
+
 
 
 

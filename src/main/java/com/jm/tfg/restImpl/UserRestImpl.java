@@ -1,4 +1,6 @@
 package com.jm.tfg.restImpl;
+import com.jm.tfg.Entidades.Category;
+import com.jm.tfg.Entidades.User;
 import com.jm.tfg.Token.JWT.JwtUtils;
 import com.jm.tfg.constantes.TfgConstants;
 import com.jm.tfg.rest.UserRest;
@@ -10,6 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 @Slf4j
 @RestController
@@ -67,7 +72,17 @@ public class UserRestImpl implements UserRest {
         }
     }
 
+    @Override
+    public ResponseEntity<List<User>> getAllUsers() {
+        ArrayList<User> arrayError = new ArrayList<>();// Cuando la respuesta des de error, se devuelve un array vacio
+        try{
+            return  userService.getAllUsers();
+        }catch (Exception ex){
+            log.error("Error al obtener todas las categorias", ex);
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(arrayError);
 
+    }
 
 
 }

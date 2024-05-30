@@ -51,10 +51,6 @@ public class TfgUtils {
                 requestMap.containsKey("name") &&
                 requestMap.containsKey("price") &&
                 requestMap.containsKey("description")
-
-
-
-
         ) {
 
             if (validarId) {
@@ -62,8 +58,6 @@ public class TfgUtils {
             }
             return true;
         }
-
-
         return false;
     }
 }

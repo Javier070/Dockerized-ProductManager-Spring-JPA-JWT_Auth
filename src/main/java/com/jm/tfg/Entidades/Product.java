@@ -26,12 +26,13 @@ public class Product {
     @JoinColumn(name = "category_fk", nullable = false)
     private Category category;
 
-    @Column
     private String description;
 
     @Column
     private Double price;
 
+    @Column(nullable = false)
+    @NotNull
     private  String status;
 
 }

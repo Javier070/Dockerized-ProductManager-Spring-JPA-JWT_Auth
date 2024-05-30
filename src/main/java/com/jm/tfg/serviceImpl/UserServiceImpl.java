@@ -1,5 +1,6 @@
 package com.jm.tfg.serviceImpl;
 
+import com.jm.tfg.Entidades.Category;
 import com.jm.tfg.Entidades.User;
 import com.jm.tfg.Token.CustomerDetailsService;
 import com.jm.tfg.Token.JWT.JwtUtils;
@@ -16,6 +17,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
@@ -93,11 +96,17 @@ public class UserServiceImpl implements UserService {
 
     }
 
-
-
-
-
-
+    @Override
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> arrayError = new ArrayList<>();// Cuando la respuesta des de error, se devuelve un array vacio
+        List<User> usuarios = userDAO.findAll();
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(usuarios);
+        } catch (Exception ex) {
+            log.error("Error al obtener todas las categorias desde el service", ex);
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(arrayError);
+    }
 
 
     @Override

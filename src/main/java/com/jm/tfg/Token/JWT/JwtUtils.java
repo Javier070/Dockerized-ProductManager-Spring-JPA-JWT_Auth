@@ -52,12 +52,11 @@ public class JwtUtils {
 
     public String crearToken(Map<String, Object> claims, String subject) {
         try {
-
             return Jwts.builder()
                     .setClaims(claims)
                     .setSubject(subject)
                     .setIssuedAt(new Date(System.currentTimeMillis()))
-                    .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10h
+                    .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10h, 10 horas
                     .signWith(SignatureAlgorithm.HS256, secret)
                     .compact();
         } catch (Exception ex) {

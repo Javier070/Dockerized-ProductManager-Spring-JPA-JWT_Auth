@@ -101,15 +101,15 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ResponseEntity<String> deleteProduct(Long id) {
         try {
-//            if (jwtFilter.isAdmin()){
+            if (jwtFilter.isAdmin()){
                 Optional <Product> optional = productRepository.findById(id);
                 if (optional.isPresent()){
                     productRepository.deleteById(id);
                     return  TfgUtils.personalizaResponseEntity(TfgConstants.OPERACION_EXITOSA, HttpStatus.OK);
                 }
                 return TfgUtils.personalizaResponseEntity(TfgConstants.INCORRECT_ID, HttpStatus.NOT_FOUND);
-//            }
-//            return TfgUtils.personalizaResponseEntity(TfgConstants.ACCESO_NO_AUTORIZADO, HttpStatus.UNAUTHORIZED);
+           }
+          return TfgUtils.personalizaResponseEntity(TfgConstants.ACCESO_NO_AUTORIZADO, HttpStatus.UNAUTHORIZED);
         }catch (Exception ex){
             log.error("Error al borrar el producto servicio.",ex);
         }

@@ -1,6 +1,7 @@
 package com.jm.tfg.Entidades;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -12,8 +13,6 @@ import org.hibernate.annotations.DynamicUpdate;
 @NoArgsConstructor
 @Entity
 @Table(name = "user")
-@DynamicInsert// genera sentencias omitiendo campos con valores nulos, mejorando la eficiencia en la inserción de datos.
-@DynamicUpdate//genera sentencias de actualización omitiendo campos que no han cambiado, optimizando la eficiencia en operaciones de actualización en la base de datos.
 public class User{
 
     @Id
@@ -22,12 +21,33 @@ public class User{
     private Long id;
 
 
-    @Column
+    @NotBlank(message = "El nombre no puede estar en blanco")
+    @Size(max = 100, message = "El nombre no puede tener más de 100 caracteres")
+    @Column(name = "name", nullable = false, length = 100)
     private String name;
+
+    @Pattern(regexp = "^\\+?[0-9 -]{7,12}$", message = "El número de contacto tiene un formato inválido")
+    @Column(name = "contact_number", length = 25)
     private String contactNumber;
+
+
+
+    @Email(message = "Debe ser una dirección de correo electrónico válida")
+    @NotBlank(message = "El correo electrónico no puede estar en blanco")
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
+
+    @NotBlank(message = "La contraseña no puede estar en blanco")
+    @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres")
+    @Column(name = "password", nullable = false)
     private String password;
+
+    @NotNull
+    @Column
     private String status;
+
+    @NotNull
+    @Column
     private String role;
 
 

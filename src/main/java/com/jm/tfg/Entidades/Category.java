@@ -2,6 +2,8 @@ package com.jm.tfg.Entidades;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -16,8 +18,9 @@ public class Category {
     @Column(name = "id", nullable = false)
     private Long id;
 
-
-    @Column(name = "name", nullable = false, length = 50)
+    @NotBlank
+    @NotNull
+    @Column(name = "name", nullable = false, length = 50, unique = true)
     @Size(max = 50)
     String name;
 

@@ -3,6 +3,7 @@ package com.jm.tfg.serviceImpl;
 import com.jm.tfg.Entidades.Category;
 import com.jm.tfg.Entidades.User;
 import com.jm.tfg.Token.CustomerDetailsService;
+import com.jm.tfg.Token.JWT.JwtFilter;
 import com.jm.tfg.Token.JWT.JwtUtils;
 import com.jm.tfg.constantes.TfgConstants;
 import com.jm.tfg.Repo.UserDAO;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 
 @Slf4j
@@ -29,6 +31,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDAO userDAO;
 
+    @Autowired
+    private JwtFilter jwtFilter;
 
 
     @Autowired
@@ -107,6 +111,28 @@ public class UserServiceImpl implements UserService {
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(arrayError);
     }
+
+    @Override
+    public ResponseEntity<String> updateUserStatus(Map<String, String> requestMap) {
+        log.info("Actualizando el estatus del usuario");
+        try {
+            if (jwtFilter.isAdmin() && requestMap.containsKey("id") && requestMap.containsKey("status")) {
+                long userId = Long.parseLong(requestMap.get("id"));
+                String newStatus = requestMap.get("status");
+
+                // Actualiza el estado del usuario en la base de datos
+                userDAO.updateStatus(newStatus, userId);
+                return TfgUtils.personalizaResponseEntity(TfgConstants.OPERACION_EXITOSA, HttpStatus.OK);
+            } else {
+                return TfgUtils.personalizaResponseEntity(TfgConstants.ACCESO_NO_AUTORIZADO, HttpStatus.UNAUTHORIZED);
+            }
+        } catch (Exception ex) {
+            log.error("Error al actualizar el estatus del usuario", ex);
+        }
+        return TfgUtils.personalizaResponseEntity(TfgConstants.ALGO_SALE_MAL, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+
 
 
     @Override

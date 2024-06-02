@@ -2,7 +2,10 @@ package com.jm.tfg.Repo;
 
 import com.jm.tfg.Entidades.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface UserDAO extends JpaRepository<User, Long> {
 
@@ -19,9 +22,13 @@ public interface UserDAO extends JpaRepository<User, Long> {
 //    @Modifying
 ////    @Query("delete from User u where u.contactNumber = ?1")
 //    void deleteByContactNumber(String contactNumber);
+@Modifying
+@Transactional
+@Query("UPDATE User u SET u.status = :status WHERE u.id = :id")
+void updateStatus(String status, long id);
+
 
     User findByEmail(@Param("email") String email);
-
 
 
     /**

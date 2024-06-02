@@ -1,5 +1,4 @@
 package com.jm.tfg.restImpl;
-import com.jm.tfg.Entidades.Category;
 import com.jm.tfg.Entidades.User;
 import com.jm.tfg.Token.JWT.JwtUtils;
 import com.jm.tfg.constantes.TfgConstants;
@@ -83,6 +82,17 @@ public class UserRestImpl implements UserRest {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(arrayError);
 
     }
+
+    @Override
+    public ResponseEntity<String> updateUserStatus(Map<String, String> requestMap) {
+        try {
+            return userService.updateUserStatus(requestMap);
+        } catch (Exception ex) {
+            log.error("Error al actualizar el estatus del usuario", ex);
+            return TfgUtils.personalizaResponseEntity(TfgConstants.ALGO_SALE_MAL, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 
 }

@@ -40,7 +40,7 @@ public class ProductServiceImpl implements ProductService {
 
 
         }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ArrayList<>()); //todo camboa esto, pongo bad request para diferenciar
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ArrayList<>());
     }
 
 

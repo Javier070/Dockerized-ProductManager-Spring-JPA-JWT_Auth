@@ -48,9 +48,14 @@ public class CategoryServiceImpl implements CategoryService {
     public ResponseEntity<List<Category>> getAllCategoria2(String filterValue) {
     List<Category> arrayError = new ArrayList<>();// ran dom la respuesta des de error, se devuelve un array vacio
     try {
+
+        if(jwtFilter.isUser()) {
+            filterValue= String.valueOf(true);
+
+        }
         if ((filterValue!= null && filterValue.equalsIgnoreCase("true"))) {
             log.info("somos true");
-            return ResponseEntity.status(HttpStatus.OK).body(categoryRepository.findCategoriesWithActiveProducts()); //todo alomejor cambiar esto por getAllcategory
+            return ResponseEntity.status(HttpStatus.OK).body(categoryRepository.findCategoriesWithActiveProducts());
         }
         return ResponseEntity.status(HttpStatus.OK).body(categoryRepository.findAll());
     } catch (Exception ex) {
@@ -64,7 +69,7 @@ public class CategoryServiceImpl implements CategoryService {
         try {
             if (jwtFilter.isAdmin()) {
                 if (TfgUtils.validarCategoriaProducto(requestMap, false, true)) {
-                    categoryRepository.save(getCategorydeMap(requestMap, false)); //todo, que hace este false
+                    categoryRepository.save(getCategorydeMap(requestMap, false));
                     return TfgUtils.personalizaResponseEntity("La categoría fue agregada correctamente", HttpStatus.CREATED);
                 }
                 return TfgUtils.personalizaResponseEntity(TfgConstants.DATOS_NO_VALIDOS, HttpStatus.BAD_REQUEST);

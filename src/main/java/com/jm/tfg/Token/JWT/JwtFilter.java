@@ -36,15 +36,10 @@ public class JwtFilter extends OncePerRequestFilter {
     @Autowired
     CustomerDetailsService customerDetailsService;
 
-    /**
-     * El nombre de usuario extraído del token JWT.
-     */
+
     private String username = null;
 
-    /**
-     * Los claims extraídos del token JWT.
-     */
-    Claims claims = null;
+    private Claims claims = null;
 
     //filtro de seguridad donde la peticion llegará antes que a los controllers, realizara una verificación del token
 
@@ -71,7 +66,7 @@ public class JwtFilter extends OncePerRequestFilter {
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (request.getServletPath().matches("/user/|/user/forgotPassword|/user/registro|")) {
+        if (request.getServletPath().matches("/user/login|/user/forgotPassword|/user/registro|")) {
             filterChain.doFilter(request, response);
         } else {
             String authorizationHeader = request.getHeader("Authorization");
@@ -156,5 +151,7 @@ public class JwtFilter extends OncePerRequestFilter {
     public String getCurrentUser() {
         return username;
     }
+
+
 }
 

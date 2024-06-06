@@ -58,13 +58,13 @@ public class UserRestImpl implements UserRest {
         String token = authorizationHeader.substring(7); // Quita "Bearer " del encabezado
 
         // Verificar si el token ha caducado
-        Boolean caducado = jwtUtils.tokenCaducado(token);
+//        Boolean caducado = jwtUtils.tokenCaducado(token);
 
         // Imprimir el token JWT en la consola
         System.out.println("Token JWT recibido: " + token);
 
         // Devolver una respuesta basada en si el token ha caducado o no
-        if (caducado) {
+        if (true) {
             return ResponseEntity.ok("El token ha caducado");
         } else {
             return ResponseEntity.ok("El token aún es válido");

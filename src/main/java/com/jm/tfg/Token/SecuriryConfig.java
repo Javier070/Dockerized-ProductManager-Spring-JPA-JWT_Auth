@@ -21,13 +21,17 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 import static org.springframework.security.config.Customizer.withDefaults;
 
-@Configuration //esta clase puede ser utilizada para definir beans o importar clases de configuración adicionales.
+@Configuration //Indica que esta clase es una clase de configuración de Spring.
+// Los métodos anotados con @Bean dentro de esta clase se usarán para crear y configurar beans que serán administrados por el contenedor de Spring.
+
 @EnableWebSecurity //esta anotación habilita la seguridad de Spring Security.
+
 public class SecuriryConfig   {
     @Autowired
     private CustomerDetailsService customerDetailsService;
     @Autowired
     private JwtFilter jwtFilter;
+    //configuera se encarga de de
 
 
 
@@ -35,12 +39,12 @@ public class SecuriryConfig   {
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http
                 .cors(withDefaults())
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf(configurer -> configurer.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user/login", "/user/forgotPassword", "/user/registro", "/user/verifyToken", "/category", "/product").permitAll() // Permitir acceso sin autenticación a estas rutas,
                         .requestMatchers("/**").permitAll() // Permitir acceso sin autenticación a todas las rutas
 //                        .requestMatchers("/admin/**").hasRole("ADMIN") // Requiere el rol "ADMIN" para las rutas bajo /admin
-                        .anyRequest().authenticated())
+                      ) //todas las rutas deben ser autenticadas
                 .formLogin(withDefaults())
                 .httpBasic(withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS));
@@ -48,6 +52,11 @@ public class SecuriryConfig   {
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
@@ -80,10 +89,7 @@ public class SecuriryConfig   {
                  )
 
     }*/
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
+
 
 
 

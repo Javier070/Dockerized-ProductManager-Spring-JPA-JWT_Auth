@@ -74,7 +74,8 @@ public class UserServiceImpl implements UserService {
         log.info("Dentro de login");
         try {
             // Intenta autenticar al usuario utilizando el AuthenticationManager y las credenciales proporcionadas
-            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+            Authentication authentication =
+                    authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                             requestMap.get("email"),
                             requestMap.get("password")));
             // Verifica si la autenticación fue exitosa

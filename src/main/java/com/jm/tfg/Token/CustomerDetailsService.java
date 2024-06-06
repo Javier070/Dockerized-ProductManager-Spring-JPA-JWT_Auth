@@ -56,7 +56,7 @@ private User userDetail;
             return new org.springframework.security.core.userdetails.User(
                     userDetail.getEmail(),
                     userDetail.getPassword(),
-                    new ArrayList<>());
+                    new ArrayList<>()); //lo mandamos vacio porque mandar null puede generar problemas
         } else {
             // Si no se encuentra al usuario, lanza una UsernameNotFoundException
             throw new UsernameNotFoundException("Usuario no encontrado");

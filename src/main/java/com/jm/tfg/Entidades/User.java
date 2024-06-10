@@ -26,7 +26,7 @@ public class User{
     @Column(name = "name", nullable = false, length = 100)
     private String name;
 
-    @Pattern(regexp = "^\\+?[0-9 -]{7,12}$", message = "El número de contacto tiene un formato inválido")
+    @NotBlank(message = "El número de contacto tiene un formato inválido")
     @Column(name = "contact_number", length = 25)
     private String contactNumber;
 

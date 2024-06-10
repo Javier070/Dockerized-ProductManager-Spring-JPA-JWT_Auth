@@ -147,12 +147,14 @@ public class UserServiceImpl implements UserService {
                 return TfgUtils.personalizaResponseEntity("Registro Exitoso", HttpStatus.CREATED);
             }else {
 
-                log.warn("El usuario ya existe");
-                return TfgUtils.personalizaResponseEntity("Email ya existe",HttpStatus.BAD_REQUEST);
+                return TfgUtils.personalizaResponseEntity(TfgConstants.DATOS_NO_VALIDOS,HttpStatus.BAD_REQUEST);
+
             }
         }else {
 //            return  TfgUtils.getResponseEntity(TfgConstants.DATOS_NO_VALIDOS,HttpStatus.BAD_REQUEST); //medio mondongo
-            return TfgUtils.personalizaResponseEntity(TfgConstants.DATOS_NO_VALIDOS,HttpStatus.BAD_REQUEST);
+
+            log.warn("El usuario ya existe");
+            return TfgUtils.personalizaResponseEntity("Email ya existe",HttpStatus.BAD_REQUEST);
 
         }
         }catch (Exception ex){

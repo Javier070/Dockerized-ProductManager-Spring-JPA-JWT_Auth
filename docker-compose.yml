@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+  backend:
+    container_name: tfg-backend3
+    image: java-tfg:1.0.6
+    # tiene que ser el mismo directorio donde se encuentra el docker-compose y el dockefile
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/tfg
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=
+    depends_on:
+     - mysql
+    restart: always
+
+
+
+  mysql:
+    container_name: mysql-tfg
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE= tfg
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_DATABASE=tfg
+    restart: always
+
+
+
+

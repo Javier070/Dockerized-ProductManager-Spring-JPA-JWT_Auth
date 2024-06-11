@@ -27,6 +27,15 @@ ENTRYPOINT ["java", "-jar", "tfg.jar"]
 # Construir la imagen: docker build java-tfg
 
 
-# Ejecutar la imagen: docker run -p 8080:8080 -t java-tfg
+# Levantar img: docker run -p 8080:8080 -t java-tfg
 #El primer 8080 (antes de los dos puntos) es el puerto de tu máquina local.
 #El segundo 8080 (después de los dos puntos) es el puerto dentro del contenedor de Docker.
+#--
+#crear un img a partir del estado actual de un container
+#docker commit mysql-tfg my-mysql-image:9.0
+
+#Tag the Image:
+ #docker tag my-mysql-image:9.0 ghcr.io/javier070/my-mysql-image:9.0
+#
+ #Push the Image
+ #docker push ghcr.io/javier070/my-mysql-image:9.0

@@ -2,7 +2,8 @@ version: '3.8'
 services:
   backend:
     container_name: tfg-backend3
-    image: java-tfg:1.0.6
+    image: ghcr.io/javier070/java-tfg:1.0.6
+    #java-tfg:1.0.6
     # tiene que ser el mismo directorio donde se encuentra el docker-compose y el dockefile
     build: .
     ports:
@@ -19,7 +20,7 @@ services:
 
   mysql:
     container_name: mysql-tfg
-    image: mysql:8.0
+    image: ghcr.io/javier070/my-mysql-tfg:9.1
     ports:
       - "3306:3306"
     environment:

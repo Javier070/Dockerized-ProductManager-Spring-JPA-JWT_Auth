@@ -86,21 +86,22 @@ Para acceder a los endpoints protegidos, es necesario incluir un token JWT en el
    ```
 2. **Ejecutar el Contenedor**
 
-A continuación, ejecuta el contenedor utilizando el comando docker run. 
+    A continuación, ejecuta el contenedor utilizando el comando docker run. 
 
-Este comando configura y ejecuta el contenedor de la aplicación
-con las variables de entorno necesarias para conectar con la base de datos MySQL.
+    Este comando configura y ejecuta el contenedor de la aplicación
+    con las variables de entorno necesarias para conectar con la base de datos MySQL.
 
-```bash
-docker run --name tfg-backend50 --network comjmtfg_default -p 8080:8080 -e SPRING_DATASOURCE_URL=jdbc:mysql://mysql-tfg:3306/tfg -e SPRING_DATASOURCE_USERNAME=root -e SPRING_DATASOURCE_PASSWORD=<PASSWORD> ghcr.io/javier070/java-tfg:1.0.6
+    ```bash
+    docker run --name tfg-backend50 --network comjmtfg_default -p 8080:8080 -e SPRING_DATASOURCE_URL=jdbc:mysql://mysql-tfg:3306/tfg -e SPRING_DATASOURCE_USERNAME=root -e SPRING_DATASOURCE_PASSWORD=<PASSWORD> ghcr.io/javier070/java-tfg:1.0.6
    ```
-Asegúrate de reemplazar <PASSWORD> con la contraseña real del usuario root de tu base de datos MySQL.
+    Asegúrate de reemplazar <PASSWORD> con la contraseña real del usuario root de tu base de datos MySQL.
+
+
 
 3. **Verificar la Ejecución**
 
-
-   Una vez ejecutado el comando anterior, la aplicación debería estar corriendo en http://localhost:5500.     Puedes verificar accediendo a este URL en tu navegador.
-
+   Una vez ejecutado el comando anterior, la aplicación debería estar corriendo en http://localhost:80800.     Puedes verificar accediendo a este URL en tu navegador.
+    
 
 
 ----

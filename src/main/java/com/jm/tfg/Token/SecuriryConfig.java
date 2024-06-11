@@ -97,7 +97,6 @@ public class SecuriryConfig   {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration(); // Crear una nueva instancia de CorsConfiguration
         configuration.addAllowedOrigin("http://127.0.0.1:5500"); // Permitir solicitudes desde este origen específico
-//        configuration.addAllowedOrigin("http://127.0.0.1:3306"); // Permitir solicitudes desde este origen específico
 
         configuration.addAllowedHeader("*"); // Permitir todos los encabezados
 //       configuration.addAllowedMethod("DELETE"); // Permitir específicamente el método DELETE

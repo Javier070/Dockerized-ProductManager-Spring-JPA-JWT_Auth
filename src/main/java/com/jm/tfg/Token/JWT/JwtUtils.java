@@ -49,11 +49,11 @@ public class JwtUtils {
             return Jwts
                     .builder() //construir para luego setear todos los campo
                     .setClaims(claims)
-                    .setSubject(username)
-                    .setIssuedAt(new Date(System.currentTimeMillis()))
-                    .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10h, 10 horas
-                    .signWith(SignatureAlgorithm.HS256, secret)
-                    .compact();
+                    .setSubject(username) // identificador del propietario del token. En este caso es el username.
+                    .setIssuedAt(new Date(System.currentTimeMillis())) //emision del token
+                    .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10h, 10 horas //caducidad del token
+                    .signWith(SignatureAlgorithm.HS256, secret) // frimar el token con el alogoritmo y la firma
+                    .compact(); //compacta el token en un cadena
         } catch (Exception ex) {
             // Manejar la excepción y registrarla
             log.error("Error al crear el token JWT", ex);
@@ -66,7 +66,7 @@ public class JwtUtils {
     public String generarToken(String username,String role){
         Map <String, Object> claims = new HashMap<>();
         claims.put("role",role);
-        return crearToken(claims,username);
+        return crearToken(claims,username); //pasamos el usuario y el rol  a generar token
     }
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////

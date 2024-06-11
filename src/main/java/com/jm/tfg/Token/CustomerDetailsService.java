@@ -45,7 +45,7 @@ private User userDetail;
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("Esto es loadUserByUsername{}", username);
 
-        // Recupera el Mail del usuario desde la base de datos usando el UserDAO
+        //*** Recupera el Mail del usuario desde la base de datos usando el UserDAO ***
          userDetail = userDAO.findByEmail(username);
 
         // Verifica si el usuario existe

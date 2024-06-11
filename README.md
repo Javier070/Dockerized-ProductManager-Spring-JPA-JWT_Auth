@@ -100,7 +100,8 @@ Para acceder a los endpoints protegidos, es necesario incluir un token JWT en el
 
 3. **Verificar la Ejecución**
 
-   Una vez ejecutado el comando anterior, la aplicación debería estar corriendo en http://localhost:80800.     Puedes verificar accediendo a este URL en tu navegador.
+   Una vez ejecutado el comando anterior, la aplicación debería estar corriendo en http://localhost:5500/Inicio/login/login.html   
+        Puedes verificar accediendo a esta URL en tu navegador.
     
 
 

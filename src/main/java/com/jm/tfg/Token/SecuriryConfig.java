@@ -48,8 +48,10 @@ public class SecuriryConfig   {
         http
                 .cors(withDefaults())
                 .csrf(configurer -> configurer.disable())
-                .authorizeHttpRequests(auth -> auth
+                .authorizeHttpRequests(auth -> auth //definir reglas de autorización
 
+
+                            //los métodos que manejan el flujo de la configuración provienen
                         .requestMatchers("/user/login", "/user/forgotPassword", "/user/registro", "/user/verifyToken").permitAll()
                         .requestMatchers("/Inicio/login/login.html", "/Inicio/login/registro/formulario.html").permitAll()
                         .anyRequest().authenticated()
@@ -97,11 +99,10 @@ public class SecuriryConfig   {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration(); // Crear una nueva instancia de CorsConfiguration
         configuration.addAllowedOrigin("http://127.0.0.1:5500"); // Permitir solicitudes desde este origen específico
-
-        configuration.addAllowedHeader("*"); // Permitir todos los encabezados
-//       configuration.addAllowedMethod("DELETE"); // Permitir específicamente el método DELETE
+  //       configuration.addAllowedMethod("DELETE"); // Permitir específicamente el método DELETE
         configuration.addAllowedMethod("*"); // Permitir todos los métodos HTTP
-        configuration.setAllowCredentials(true); // Permitir el envío de credenciales en las solicitudes CORS
+        configuration.addAllowedHeader("*");  // Allow all headers
+        configuration.setAllowCredentials(true); // Permitir el envío de credenciales en las solicitudes CORS habilitar autenticación basada en tokens
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource(); // Crear una instancia de UrlBasedCorsConfigurationSource
 

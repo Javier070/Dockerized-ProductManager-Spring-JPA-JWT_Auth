@@ -1,34 +1,40 @@
-version: '3.8'
-services:
+version: '3.8'  # Especifica la versión del esquema de Docker Compose
+
+services:  # Define los servicios que Docker Compose debe crear
+
   backend:
-    container_name: tfg-backend3
-    image: ghcr.io/javier070/java-tfg:1.0.6
-    #java-tfg:1.0.6
-    # tiene que ser el mismo directorio donde se encuentra el docker-compose y el dockefile
-    build: .
+    container_name: tfg-backend3  # Nombre del contenedor para el servicio backend
+    image: ghcr.io/javier070/java-tfg:1.0.6  # Imagen Docker para el backend
+    # Nota: la imagen se toma del registro de GitHub Container Registry (ghcr.io)
+
+    build: .  # Construir la imagen desde el Dockerfile en el directorio actual
+
+
     ports:
-      - "8080:8080"
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/tfg
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=
+      - "8080:8080"  # Mapea el puerto 8080 del host al puerto 8080 del contenedor
+
+    environment:  # Variables de entorno para configurar el servicio backend
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/tfg  # URL del datasource de Spring
+      - SPRING_DATASOURCE_USERNAME=root  # Nombre de usuario para el datasource de Spring
+      - SPRING_DATASOURCE_PASSWORD=  # Contraseña para el datasource de Spring (debe ser configurada)
+
     depends_on:
-     - mysql
-    restart: always
+      # Este servicio depende de que el servicio mysql esté operativo para arrancar
+      - mysql
 
-
+    restart: always  # Asegura que el contenedor se reinicie siempre, en caso de fallo
 
   mysql:
-    container_name: mysql-tfg
-    image: ghcr.io/javier070/my-mysql-tfg:9.1
+    container_name: mysql-tfg  # Nombre del contenedor para el servicio MySQL
+    image: ghcr.io/javier070/my-mysql-tfg:9.1  # Imagen Docker para MySQL
+    # Nota: la imagen se toma del registro de GitHub Container Registry (ghcr.io)
+
     ports:
-      - "3306:3306"
-    environment:
-      - MYSQL_DATABASE= tfg
-      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-      - MYSQL_DATABASE=tfg
-    restart: always
+      - "3306:3306"  # Mapea el puerto 3306 del host al puerto 3306 del contenedor
 
+    environment:  # Variables de entorno para configurar el servicio MySQL
+      - MYSQL_DATABASE= tfg  # Base de datos que se creará al iniciar MySQL
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes  # Permite el inicio de sesión con una contraseña vacía
+      - MYSQL_DATABASE=tfg  # Base de datos que se creará al iniciar MySQL (repetido por error)
 
-
-
+    restart: always  # Asegura que el contenedor se reinicie siempre, en caso de fallo

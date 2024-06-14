@@ -39,3 +39,6 @@ ENTRYPOINT ["java", "-jar", "tfg.jar"]
 #
  #Push the Image
  #docker push ghcr.io/javier070/my-mysql-image:9.0
+
+# Aplicar los cambios de un contenedor a la img
+#docker commit mysql-tfg my-mysql-tfg:9.0

@@ -7,7 +7,7 @@ services:  # Define los servicios que Docker Compose debe crear
     image: ghcr.io/javier070/java-tfg:1.0.6  # Imagen Docker para el backend
     # Nota: la imagen se toma del registro de GitHub Container Registry (ghcr.io)
 
-    build: .  # Construir la imagen desde el Dockerfile en el directorio actual
+    build: ../..  # Construir la imagen desde el Dockerfile en el directorio actual
 
 
     ports:

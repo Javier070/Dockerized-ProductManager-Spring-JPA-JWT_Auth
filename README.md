@@ -52,6 +52,27 @@ Esta es una aplicación web diseñada para la gestión de productos y categoría
    ```bash
    java -jar target/<NOMBRE_DEL_JAR>.jar
    ```
+## Solución de Problemas Comunes
+
+### Error al Cargar el Contexto de la Aplicación (Failed to load ApplicationContext)
+
+Si te encuentras con el siguiente error al ejecutar `mvn install` o `mvn test`:
+
+Esto indica que la aplicación no pudo conectarse a la base de datos MySQL. Este problema suele deberse a que el servidor de base de datos no está corriendo o la configuración de la conexión es incorrecta.
+
+#### Pasos para Resolver el Problema
+
+1. **Verificar que el Servidor de Base de Datos esté Corriendo**:
+    - Si estás usando XAMPP, asegúrate de que MySQL estén iniciado. 
+
+2. **Verificar la Configuración de la Base de Datos**:
+    - Asegúrate de que la configuración en `src/main/resources/application.properties` o `src/main/resources/application.yml` sea correcta. Debería parecerse a esto:
+
+   ```properties
+   spring.datasource.url=jdbc:mysql://localhost:3306/tu_base_de_datos
+   spring.datasource.username=tu_usuario
+   spring.datasource.password=tu_contraseña
+   spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 
 ## Uso Básico
 

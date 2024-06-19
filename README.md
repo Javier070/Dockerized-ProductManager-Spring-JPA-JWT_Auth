@@ -66,7 +66,7 @@ Esto indica que la aplicación no pudo conectarse a la base de datos MySQL. Este
     - Si estás usando XAMPP, asegúrate de que MySQL estén iniciado. 
 
 2. **Verificar la Configuración de la Base de Datos**:
-    - Asegúrate de que la configuración en `src/main/resources/application.properties` o `src/main/resources/application.yml` sea correcta. Debería parecerse a esto:
+    - Asegúrate de que la configuración en `src/main/resources/application.properties` sea correcta. Debería parecerse a esto:
 
    ```properties
    spring.datasource.url=jdbc:mysql://localhost:3306/tu_base_de_datos

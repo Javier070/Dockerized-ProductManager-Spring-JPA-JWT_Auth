@@ -73,11 +73,44 @@ Authorization: Bearer <TOKEN_JWT>
 - **500 Internal Server Error**: Error en el servidor.
 
 
-#### Manjeo de errores durante el mantenimiento
+### Manjeo de errores durante el mantenimiento
 - Cuando el programa da error al hacer isAdmin()  se debe a que el token esta vacio,
 - el jwtFilter.isAdmin() responde status 500 cuando no has ingresado ningún usuario
   si quieres recibir el status 401 le tienes que pasar
   un user con: el status "true" y el rol "user"
+
+
+## Script para rellenar las tablas
+```
+-- Table category
+INSERT INTO category (id, name) VALUES
+(1, 'Electrónica'),
+(2, 'Libros'),
+(3, 'Ropa'),
+(4, 'Hogar y Cocina'),
+(5, 'Deportes y Aire Libre');
+
+-- Table product
+INSERT INTO product (id, description, name, price, status, category_fk) VALUES
+(1, 'Teléfono con 6GB de RAM y 128GB de almacenamiento', 'Teléfono Inteligente', 299.99, 'true', 1),
+(2, 'Novela de ficción de autor famoso', 'Novela Bestseller', 19.99, 'true', 2),
+(3, 'Camiseta de algodón para hombre, talla L', 'Camiseta para Hombre', 15.99, 'true', 3),
+(4, 'Juego de utensilios de cocina antiadherentes', 'Juego de Utensilios de Cocina', 89.99, 'true', 4),
+(5, 'Esterilla de yoga con extra grosor', 'Esterilla de Yoga', 25.99, 'true', 5),
+(6, 'Portátil con pantalla de 15.6 pulgadas, 8GB de RAM y 256GB SSD', 'Portátil', 499.99, 'true', 1),
+(7, 'Auriculares inalámbricos con cancelación de ruido', 'Auriculares Inalámbricos', 99.99, 'true', 1),
+(8, 'Tablet con pantalla de 10 pulgadas y 64GB de almacenamiento', 'Tablet', 199.99, 'true', 1),
+(9, 'Bicicleta de montaña con 21 velocidades', 'Bicicleta de Montaña', 299.99, 'true', 5),
+(10, 'Reloj deportivo con GPS y monitor de frecuencia cardíaca', 'Reloj Deportivo', 149.99, 'true', 5);
+
+-- Table user
+INSERT INTO user (id, contact_number, email, name, password, role, status) VALUES
+(1, '1234567890', 'juan.perez@ejemplo.com', 'Juan Pérez', 'contraseña123', 'user', 'true'),
+(2, '0987654321', 'maria.gomez@ejemplo.com', 'María Gómez', 'contraseña456', 'user', 'true'),
+(3, '5556667777', 'admin@ejemplo.com', 'Administrador', 'contraseñaAdmin', 'admin', 'true'),
+(4, '4445556666', 'emma.lopez@ejemplo.com', 'Emma López', 'contraseña789', 'user', 'false'),
+(5, '3334445555', 'carlos.martinez@ejemplo.com', 'Carlos Martínez', 'contraseña321', 'user', 'true');
+```
 
 
 

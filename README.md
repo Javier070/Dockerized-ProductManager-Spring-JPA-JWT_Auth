@@ -5,11 +5,11 @@
 Esta es una aplicación web diseñada para la gestión de productos y categorías. La aplicación permite
 a los usuarios autenticarse y realizar operaciones. 
 
-Si quiere tambien el front-end tenga en cuenta el ***Contenido 10*** y este enlace: https://github.com/Javier070/ProductManager-Frontend.
+Si quiere agregar el front-end tenga en cuenta el ***Contenido 10*** y este enlace: https://github.com/Javier070/ProductManager-Frontend.
 
 ### Advertencia
-Si tiene dificultades para la comprensión del proyecto o necesitas mas información  recoiendo encarecidamente
-consultar el archvio `HELP.md`
+Si tiene dificultades para comprender el proyecto o necesita más información, recomiendo encarecidamente consultar el archivo `HELP.md`.
+
 
 
 ## Contenido
@@ -64,8 +64,8 @@ consultar el archvio `HELP.md`
 3. **Configurar la base de datos (si no quieres usar docker)**:
     - Tener iniciado el servidor MySQL, en mi caso uso el proporcionado por XAMPP.
     - Crea una base de datos para el proyecto utilizando MySQL Workbench o cualquier otra herramienta de administración MySQL
-    - Asegurate el archivo `application.properties` coinciden las credenciales con la base de datos.
-    - La tablas se crean al ejecutar la aplicación.
+    - Asegúrate de que el archivo application.properties coincida con las credenciales de la base de datos.
+    - Las tablas se crean al ejecutar la aplicación.
     - En el archivo HELP.md encontrarás un script para rellenar las tablas.
 
 
@@ -83,7 +83,7 @@ Esto indica que la aplicación no pudo conectarse a la base de datos MySQL. Este
 #### Pasos para Resolver el Problema
 
 1. **Verificar que el Servidor de Base de Datos esté Corriendo**:
-    - Si estás usando XAMPP, asegúrate de que MySQL estén iniciado.
+    - Si estás usando XAMPP, asegúrate de que MySQL esté iniciado.
 
 2. **Verificar la Configuración de la Base de Datos**:
     - Asegúrate de que la configuración en `src/main/resources/application.properties` o `src/main/resources/application.yml` sea correcta. Debería parecerse a esto:
@@ -120,7 +120,7 @@ Para acceder a los endpoints protegidos, es necesario incluir un token JWT en el
 
 ### 1. **Descargar Docker**
 
-Primero, asegúrate de tener Docker instalado en tu sistema. Luego, descarga la imagenes de Docker para la aplicación.
+Primero, asegúrate de tener Docker instalado en tu sistema. Luego, descarga las imágenes de Docker para la aplicación.
 
 El archivo docker-compose.yml incluye la configuración necesaria para los contenedores de la aplicación y la base de datos MySQL.     
 No se requiere configuración adicional.
@@ -131,7 +131,7 @@ Si no tienes las imágenes en tu máquina local, puedes descargarlas con los sig
    docker pull ghcr.io/javier070/java-tfg:1.0.6
    ```
    ```bash
- docker pull ghcr.io/javier070/my-mysql-tfg:9.1
+   docker pull ghcr.io/javier070/my-mysql-tfg:9.1
    ```
 #### 2. Ejecutar Docker Compose
 
@@ -145,7 +145,7 @@ Este comando levantará los contenedores definidos en el archivo docker-compose.
 
 #### 3. **Verificar la Ejecución**
 Para verificar que la aplicación está funcionando, puedes utilizar herramientas
-como Postman para hacer peticiones a los endpoints protegidos de la API en http://localhost:8080.
+como Postman para hacer peticiones a los endpoints protegidos de la API en http://localhost:8080
 Necesitarás autenticarte para acceder a estos endpoints.
 
 #### 4. Detener los Contenedores
@@ -158,14 +158,14 @@ docker-compose down
 ## Ejecución de los Contenedores sin Docker Compose
 Si prefieres no usar Docker Compose, puedes ejecutar los contenedores individualmente con los siguientes comandos:
 
-1. Ejecutar el Contenedor MySQL
+1. Ejecutar el Contenedor MySQL:
 
  ```bash
 docker run --name mysql-tfg -e MYSQL_ROOT_PASSWORD=<PASSWORD> -e MYSQL_DATABASE=tfg -p 3306:3306 -d ghcr.io/javier070/my-mysql-tfg:9.1
    ```
 Asegúrate de reemplazar <PASSWORD> con la contraseña real del usuario root de tu base de datos MySQL.
 
-2. Ejecutar el Contenedor de la Aplicación
+2. Ejecutar el Contenedor de la Aplicación:
 
  ```bash
 docker run --name tfg-backend50 --network host -p 8080:8080 -e SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/tfg -e SPRING_DATASOURCE_USERNAME=root -e SPRING_DATASOURCE_PASSWORD=<PASSWORD> ghcr.io/javier070/java-tfg:1.0.6
@@ -175,7 +175,7 @@ Asegúrate de reemplazar <PASSWORD> con la contraseña real del usuario root de 
 ---
 # Acceder a la Aplicación Completa
 Para acceder a la versión completa de la aplicación, necesitas descargar el frontend desde otro repositorio y ejecutarlo en el puerto 5500. 
-Enlace al reposiotrio: https://github.com/Javier070/ProductManager-Frontend
+Enlace al repositorio: https://github.com/Javier070/ProductManager-Frontend
 
 Sigue estos pasos:
 
@@ -184,12 +184,7 @@ Clonar el repositorio del frontend:
 git clone https://github.com/Javier070/ProductManager-Frontend.git
    ```
 
-Navegar al directorio del frontend:
- ```bash
-cd ProductManager-Frontend
-   ```
-
-Iniciar el servidor del frontend (por ejemplo, utilizando Live Server[recomiendo usar la extensión de Visual Studio Code]):
+Iniciar el servidor del frontend (por ejemplo, utilizando Live Server [**recomiendo usar la extensión de Visual Studio Code**]):
  ```bash
 live-server --port=5500
    ```

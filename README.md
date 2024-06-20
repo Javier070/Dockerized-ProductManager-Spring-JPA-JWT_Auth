@@ -40,6 +40,7 @@ Si tiene dificultades para comprender el proyecto o necesita más información, 
 - **Frontend**: HTML, CSS, JavaScript
 - **Base de Datos**: MySQL
 - **Seguridad**: JWT (JSON Web Tokens)
+- **Contnedores**: Docker
 
 ## Requisitos Previos
 
